@@ -5,13 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CSVReader {
-    private String csvFilePath;
-
-    public CSVReader(String csvFilePath) {
-        this.csvFilePath = csvFilePath;
+    public CSVReader() {
     }
 
-    public List<Mission> readMissions() {
+    public List<Mission> CreateMissions(String csvFilePath) {
         List<Mission> missions = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
@@ -35,5 +32,28 @@ public class CSVReader {
         }
 
         return missions;
+    }
+
+
+    public List<Centre> CreateCenter(String csvFilePath) {
+        List<Centre> centres = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] values = line.split(",");
+                if (values.length >= 2) {
+                    String id = values[0];
+                    String nom = values[1];
+
+                    Centre centre = new Centre(id, nom);
+                    centres.add(centre);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return centres;
     }
 }

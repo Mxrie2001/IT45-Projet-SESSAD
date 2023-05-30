@@ -59,8 +59,7 @@ public class Mission {
         this.spé = spé;
     }
 
-    @Override
-    public String toString() {
+    public String toStringMissions() {
         return "Mission{" +
                 "id=" + id +
                 ", jour='" + jour + '\'' +

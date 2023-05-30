@@ -1,26 +1,26 @@
 public class Centre {
 
-    private int id;
+    private String id;
     private String nom;
     private int capacite;
     private String[] affectation;
     private double distanceTrajets;
 
-    public Centre(int id, String nom, int capacite, String[] affectation, double distanceTrajets) {
+    public Centre(String id, String nom) {
         this.id = id;
         this.nom = nom;
-        this.capacite = capacite;
-        this.affectation = affectation;
-        this.distanceTrajets = distanceTrajets;
+//        this.capacite = 0;
+//        this.affectation = new String[0];
+//        this.distanceTrajets = 0.0;
     }
 
-    public int getId() {
-        return id;
-    }
+//    public int getId() {
+//        return id;
+//    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     public String getNom() {
         return nom;
@@ -52,5 +52,11 @@ public class Centre {
 
     public void setDistanceTrajets(double distanceTrajets) {
         this.distanceTrajets = distanceTrajets;
+    }
+
+    public String toStringCentre() {
+        return "Centre{" +
+                "id=" + id +
+                ", nom='" + nom + '\'';
     }
 }

@@ -3,14 +3,19 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        String csvFilePath = "./src/instances/30Missions-2centres/Missions.csv";
-        CSVReader csvReader = new CSVReader(csvFilePath);
 
-        List<Mission> missions = csvReader.readMissions();
+        CSVReader csvReader = new CSVReader();
 
-        // Faites quelque chose avec la liste des missions créées
+        List<Mission> missions = csvReader.CreateMissions("./src/instances/30Missions-2centres/Missions.csv");
+
+        List<Centre> centres = csvReader.CreateCenter("./src/instances/66Missions-2centres/centers.csv");
+
         for (Mission mission : missions) {
-            System.out.println(mission.toString());
+            System.out.println(mission.toStringMissions());
+        }
+
+        for (Centre centre : centres) {
+            System.out.println(centre.toStringCentre());
         }
     }
 }
