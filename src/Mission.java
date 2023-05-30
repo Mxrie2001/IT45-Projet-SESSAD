@@ -59,4 +59,16 @@ public class Mission {
         this.spé = spé;
     }
 
+    @Override
+    public String toString() {
+        return "Mission{" +
+                "id=" + id +
+                ", jour='" + jour + '\'' +
+                ", heure_debut='" + heure_debut + '\'' +
+                ", heure_fin='" + heure_fin + '\'' +
+                ", compétence='" + compétence + '\'' +
+                ", spé='" + spé + '\'' +
+                '}';
+    }
+
 }
