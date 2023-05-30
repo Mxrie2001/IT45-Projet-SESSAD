@@ -81,4 +81,33 @@ public class CSVReader {
         }
         return employes;
     }
+
+    public double[][] createDistanceMatrix(String csvFilePath) {
+        double[][] distanceMatrix = null;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
+            List<String[]> rows = new ArrayList<>();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] values = line.split(",");
+                rows.add(values);
+            }
+
+            int numRows = rows.size();
+            int numCols = rows.get(0).length;
+            distanceMatrix = new double[numRows][numCols];
+
+            for (int i = 0; i < numRows; i++) {
+                String[] row = rows.get(i);
+                for (int j = 0; j < numCols; j++) {
+                    distanceMatrix[i][j] = Double.parseDouble(row[j]);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return distanceMatrix;
+    }
 }
