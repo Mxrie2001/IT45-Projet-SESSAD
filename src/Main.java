@@ -9,6 +9,7 @@ public class Main {
         List<Mission> missions = csvReader.CreateMissions("./src/instances/30Missions-2centres/Missions.csv");
 
         List<Centre> centres = csvReader.CreateCenter("./src/instances/66Missions-2centres/centers.csv");
+        List<Employé> employes = csvReader.CreateEmploye("./src/instances/66Missions-2centres/Employees.csv");
 
         for (Mission mission : missions) {
             System.out.println(mission.toStringMissions());
@@ -16,6 +17,10 @@ public class Main {
 
         for (Centre centre : centres) {
             System.out.println(centre.toStringCentre());
+        }
+
+        for (Employé employe : employes) {
+            System.out.println(employe.toStringEmploye());
         }
     }
 }

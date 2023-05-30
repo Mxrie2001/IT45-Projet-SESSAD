@@ -53,7 +53,32 @@ public class CSVReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return centres;
+    }
+
+    public List<Employé> CreateEmploye(String csvFilePath)
+    {
+        List<Employé> employes = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath)))
+        {
+            String line;
+            while ((line = reader.readLine()) != null)
+            {
+                String[] values = line.split(",");
+                if (values.length >= 4) {
+                    int id = Integer.parseInt(values[0]);
+                    int centreID = Integer.parseInt(values[1]);
+                    String compétence = values[2];
+                    String spé = values[3];
+
+                    Employé employe = new Employé(id, centreID, compétence, spé, null, null, 0.0);
+                    employes.add(employe);
+                }
+            }
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return employes;
     }
 }

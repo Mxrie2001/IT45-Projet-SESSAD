@@ -5,13 +5,13 @@ public class Employé {
     private int id;
     private int centreID;
     private String compétence;
-    private List<String> spé;
+    private String spé;
     private EmployéEdt employéEdt;
     private List<Mission> affectation;
     private double distanceTrajets;
 
 
-    public Employé(int id, int centreID, String compétence, List<String> spé, EmployéEdt employéEdt, List<Mission> affectation, double distanceTrajets) {
+    public Employé(int id, int centreID, String compétence, String spé, EmployéEdt employéEdt, List<Mission> affectation, double distanceTrajets) {
         this.id = id;
         this.centreID = centreID;
         this.compétence = compétence;
@@ -45,11 +45,11 @@ public class Employé {
         this.compétence = compétence;
     }
 
-    public List<String> getSpé() {
+    public String getSpé() {
         return spé;
     }
 
-    public void setSpé(List<String> spé) {
+    public void setSpé(String spé) {
         this.spé = spé;
     }
 
@@ -75,5 +75,13 @@ public class Employé {
 
     public void setDistanceTrajets(double distanceTrajets) {
         this.distanceTrajets = distanceTrajets;
+    }
+
+    public String toStringEmploye() {
+        return "Employe{" +
+                "id=" + id +
+                ", centreID='" + centreID + '\'' +
+                ", competence=" + compétence + '\'' +
+                ", specialité=" + spé + '\'' ;
     }
 }
