@@ -66,8 +66,8 @@ public class CSVReader {
             {
                 String[] values = line.split(",");
                 if (values.length >= 4) {
-                    int id = Integer.parseInt(values[0]);
-                    int centreID = Integer.parseInt(values[1]);
+                    int id =  Integer.parseInt(values[0]);
+                    int centreID =  Integer.parseInt(values[1]);
                     String compétence = values[2];
                     String spé = values[3];
 
