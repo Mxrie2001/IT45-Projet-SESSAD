@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CSVReader {
+
+
+    int[] instanceCentre = new int[3];
+
     public CSVReader() {
     }
 
@@ -37,17 +41,19 @@ public class CSVReader {
 
     public List<Centre> CreateCenter(String csvFilePath) {
         List<Centre> centres = new ArrayList<>();
+        int i = 1;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",");
                 if (values.length >= 2) {
-                    String id = values[0];
+                    int id = i;
                     String nom = values[1];
 
                     Centre centre = new Centre(id, nom);
                     centres.add(centre);
+                    i += 1;
                 }
             }
         } catch (IOException e) {
@@ -71,8 +77,20 @@ public class CSVReader {
                     String compétence = values[2];
                     String spé = values[3];
 
+
+                    if (centreID == 1){
+                        instanceCentre[0] += 1;
+                    }
+                    if (centreID == 2){
+                        instanceCentre[1] += 1;
+                    }
+                    if (centreID == 3){
+                        instanceCentre[2] += 1;
+                    }
+
                     Employé employe = new Employé(id, centreID, compétence, spé, null, null, 0.0);
                     employes.add(employe);
+
                 }
             }
         } catch (IOException e)
@@ -81,6 +99,7 @@ public class CSVReader {
         }
         return employes;
     }
+
 
     public double[][] createDistanceMatrix(String csvFilePath) {
         double[][] distanceMatrix = null;

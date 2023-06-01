@@ -1,26 +1,25 @@
+import java.util.Arrays;
+
 public class Centre {
 
-    private String id;
+    private int id;
     private String nom;
     private int capacite;
     private String[] affectation;
     private double distanceTrajets;
 
-    public Centre(String id, String nom) {
+    public Centre(int id, String nom) {
         this.id = id;
         this.nom = nom;
-//        this.capacite = 0;
-//        this.affectation = new String[0];
-//        this.distanceTrajets = 0.0;
     }
 
-//    public int getId() {
-//        return id;
-//    }
+    public int getId() {
+        return id;
+    }
 
-//    public void setId(int id) {
-//        this.id = id;
-//    }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getNom() {
         return nom;
@@ -54,9 +53,17 @@ public class Centre {
         this.distanceTrajets = distanceTrajets;
     }
 
+    public void calculateCapacity(){
+
+    }
+
     public String toStringCentre() {
         return "Centre{" +
                 "id=" + id +
-                ", nom='" + nom + '\'';
+                ", nom='" + nom +
+                ", capacite=" + capacite +
+                ", affectation=" + Arrays.toString(affectation) +
+                ", distanceTrajets=" + distanceTrajets +
+                '}';
     }
 }

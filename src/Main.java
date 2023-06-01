@@ -2,8 +2,6 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
-
         CSVReader csvReader = new CSVReader();
 
         List<Mission> missions = csvReader.CreateMissions("./src/instances/30Missions-2centres/Missions.csv");
@@ -17,8 +15,20 @@ public class Main {
         }
 
         for (Centre centre : centres) {
+            if (centre.getId() == 1) {
+                centre.setCapacite(csvReader.instanceCentre[0]);
+            }
+            if (centre.getId() == 2) {
+                centre.setCapacite(csvReader.instanceCentre[1]);
+            }
+            if (centre.getId() == 3) {
+                centre.setCapacite(csvReader.instanceCentre[2]);
+            }
             System.out.println(centre.toStringCentre());
+
         }
+
+
 
         for (Employé employe : employes) {
             System.out.println(employe.toStringEmploye());
