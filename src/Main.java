@@ -9,6 +9,10 @@ public class Main {
         List<Centre> centres = csvReader.CreateCenter("./src/instances/30Missions-2centres/centers.csv");
         List<Employé> employes = csvReader.CreateEmploye("./src/instances/30Missions-2centres/Employees.csv");
         double[][] distanceMatrix = csvReader.createDistanceMatrix("./src/instances/30Missions-2centres/distances.csv");
+        Kmeans kmeans = new Kmeans(distanceMatrix, centres, missions, centres.size());
+
+        System.out.println(kmeans.toStringKmeans());
+        kmeans.kmeansAlgorithme();
 
         for (Mission mission : missions) {
             System.out.println(mission.toStringMissions());
@@ -34,15 +38,5 @@ public class Main {
             System.out.println(employe.toStringEmploye());
         }
 
-        // Affichage de la matrice des distances
-        int numRows = distanceMatrix.length;
-        int numCols = distanceMatrix[0].length;
-
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
-                System.out.print(distanceMatrix[i][j] + " ");
-            }
-            System.out.println();
-        }
     }
 }
