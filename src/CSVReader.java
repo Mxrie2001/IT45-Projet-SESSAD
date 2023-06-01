@@ -14,13 +14,14 @@ public class CSVReader {
 
     public List<Mission> CreateMissions(String csvFilePath) {
         List<Mission> missions = new ArrayList<>();
+        int i = 1;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",");
                 if (values.length >= 6) {
-                    int id = Integer.parseInt(values[0]);
+                    int id = i;
                     String jour = values[1];
                     String heureDebut = values[2];
                     String heureFin = values[3];
@@ -29,6 +30,7 @@ public class CSVReader {
 
                     Mission mission = new Mission(id, jour, heureDebut, heureFin, competence, spe);
                     missions.add(mission);
+                    i += 1;
                 }
             }
         } catch (IOException e) {
@@ -65,6 +67,7 @@ public class CSVReader {
     public List<Employé> CreateEmploye(String csvFilePath)
     {
         List<Employé> employes = new ArrayList<>();
+        int i = 1;
         try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath)))
         {
             String line;
@@ -72,7 +75,7 @@ public class CSVReader {
             {
                 String[] values = line.split(",");
                 if (values.length >= 4) {
-                    int id =  Integer.parseInt(values[0]);
+                    int id =  i;
                     int centreID =  Integer.parseInt(values[1]);
                     String compétence = values[2];
                     String spé = values[3];
@@ -90,6 +93,7 @@ public class CSVReader {
 
                     Employé employe = new Employé(id, centreID, compétence, spé, null, null, 0.0);
                     employes.add(employe);
+                    i += 1;
 
                 }
             }
