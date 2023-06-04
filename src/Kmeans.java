@@ -14,9 +14,9 @@ public class Kmeans {
 
     private List<Mission> missions; // Liste de missions
 
-    private List<Mission>[] listesClusters;
+    private List<List<Mission>> listesMissionsCluster;
 
-    private Mission[] listesClustersM;
+
 
 
 
@@ -26,8 +26,7 @@ public class Kmeans {
         this.centres = centres;
         this.nbclusters = nbclusters;
         this.missions = missions;
-        this.listesClusters = new List[0];
-        this.listesClustersM = new Mission[0];
+        this.listesMissionsCluster = new ArrayList<>();
     }
 
     public double[][] getDistances() {
@@ -99,37 +98,76 @@ public class Kmeans {
                 }
             }
 
-            System.out.println("Le minimum de la ligne " + (i + 1) + " est : " + minimum + " dans la colonne " + (minCol + 1));
+//            System.out.println("Le minimum de la ligne " + (i + 1) + " est : " + minimum + " dans la colonne " + (minCol + 1));
 
             CentreMission[i-2][0] = i-1;
             CentreMission[i-2][1] = minCol+1;
         }
 
-        System.out.println("Tableau Centre Missions:");
+
+        System.out.println("\n************************************************************************");
+        System.out.println("Affichage Tableau Mission -> Centre en fonction de la distance la plus courte");
+        System.out.println("************************************************************************");
+//        System.out.println("Tableau Centre Missions:");
         for (int i = 0; i < CentreMission.length; i++) {
             System.out.println(CentreMission[i][0] + "\t" + CentreMission[i][1]);
         }
 
-        System.out.println(this.missions.get(CentreMission[0][0]));
-        System.out.println(this.missions.get(CentreMission[10][0]));
-        System.out.println(this.missions.get(CentreMission[28][0]));
-        System.out.println(missions.size());
-        System.out.println("test:" +  CentreMission[29][0]);
-        System.out.println(this.missions.get(CentreMission[29][0]));
-        int test = 29;
-        System.out.println(this.missions.get(test));
-        System.out.println(this.distances.length - 2);
 
-
-        for (int i = 0; i < 29; i++) {
-//            for (int j = 0; j < this.nbclusters +1; j++) {
-//                if(CentreMission[i][1] == j){
-//                    listesClustersM[j] = this.missions.get(CentreMission[i][0]);
-//                }
-            System.out.println(this.missions.get(CentreMission[i][0]));
-
-//            }
+        for (int i = 0; i < this.nbclusters; i++) {
+            List<Mission> listeObjets = new ArrayList<>();
+            for (int j = 0; j < CentreMission.length; j++) {
+                if (CentreMission[j][1] == i+1) {
+//                    System.out.println("mission: " +CentreMission[j][0] + "\t Centre: " + CentreMission[j][1]);
+                    // Ajoutez les objets souhaités à chaque liste
+                    listeObjets.add(missions.get(CentreMission[j][0] -1));
+//                    System.out.println(missions.get(CentreMission[j][0] -1).getId());
+                }
+            }
+            listesMissionsCluster.add(listeObjets);
         }
+
+        System.out.println("\n************************************************************************");
+        System.out.println("Affichage des Clusters");
+        System.out.println("************************************************************************");
+
+        for (int i = 0; i < listesMissionsCluster.size(); i++) {
+            List<Mission> listeObjets = listesMissionsCluster.get(i);
+            System.out.println("Cluster " + (i + 1) + ":");
+            for (Mission objet : listeObjets) {
+                System.out.println("Mission n°" + objet.getId());
+            }
+            System.out.println();
+        }
+
+
+
+
+
+
+
+
+
+//        System.out.println(this.missions.get(CentreMission[0][0]));
+//        System.out.println(this.missions.get(CentreMission[10][0]));
+//        System.out.println(this.missions.get(CentreMission[28][0]));
+//        System.out.println(missions.size());
+//        System.out.println("test:" +  CentreMission[29][0]);
+//        System.out.println(this.missions.get(CentreMission[29][0]));
+//        int test = 29;
+//        System.out.println(this.missions.get(test));
+//        System.out.println(this.distances.length - 2);
+
+
+//        for (int i = 0; i < 29; i++) {
+////            for (int j = 0; j < this.nbclusters +1; j++) {
+////                if(CentreMission[i][1] == j){
+////                    listesClustersM[j] = this.missions.get(CentreMission[i][0]);
+////                }
+//            System.out.println(this.missions.get(CentreMission[i][0]));
+//
+////            }
+//        }
 
 //        System.out.println("Tableau Centre Missions Affectations:");
 //        for (int i = 0; i < this.distances.length - 2; i++) {

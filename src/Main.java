@@ -11,8 +11,9 @@ public class Main {
         double[][] distanceMatrix = csvReader.createDistanceMatrix("./src/instances/30Missions-2centres/distances.csv");
         Kmeans kmeans = new Kmeans(distanceMatrix, centres, missions, centres.size());
 
-        System.out.println(kmeans.toStringKmeans());
-        kmeans.kmeansAlgorithme();
+        System.out.println("\n************************************************************************");
+        System.out.println("Affichage des objets");
+        System.out.println("************************************************************************");
 
         for (Mission mission : missions) {
             System.out.println(mission.toStringMissions());
@@ -37,6 +38,14 @@ public class Main {
         for (Employé employe : employes) {
             System.out.println(employe.toStringEmploye());
         }
+
+
+        System.out.println("\n************************************************************************");
+        System.out.println("Algorithme Kmeans");
+        System.out.println("************************************************************************");
+
+//        System.out.println(kmeans.toStringKmeans());
+        kmeans.kmeansAlgorithme();
 
     }
 }
