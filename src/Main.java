@@ -10,6 +10,7 @@ public class Main {
         List<Employé> employes = csvReader.CreateEmploye("./src/instances/30Missions-2centres/Employees.csv");
         double[][] distanceMatrix = csvReader.createDistanceMatrix("./src/instances/30Missions-2centres/distances.csv");
         Kmeans kmeans = new Kmeans(distanceMatrix, centres, missions, centres.size());
+        AlgoTabou tabou = new AlgoTabou(kmeans.getListesMissionsCluster(), employes, centres, centres.size());
 
         System.out.println("\n************************************************************************");
         System.out.println("Affichage des objets");
@@ -46,6 +47,14 @@ public class Main {
 
 //        System.out.println(kmeans.toStringKmeans());
         kmeans.kmeansAlgorithme();
+
+
+        System.out.println("\n************************************************************************");
+        System.out.println("Algorithme Tabou");
+        System.out.println("************************************************************************");
+
+        System.out.println(tabou.toStringAlgoTabou());
+
 
     }
 }

@@ -29,6 +29,14 @@ public class Kmeans {
         this.listesMissionsCluster = new ArrayList<>();
     }
 
+    public List<List<Mission>> getListesMissionsCluster() {
+        return listesMissionsCluster;
+    }
+
+    public void setListesMissionsCluster(List<List<Mission>> listesMissionsCluster) {
+        this.listesMissionsCluster = listesMissionsCluster;
+    }
+
     public double[][] getDistances() {
         return distances;
     }
