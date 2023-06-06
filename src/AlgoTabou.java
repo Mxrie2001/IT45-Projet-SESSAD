@@ -54,7 +54,7 @@ public class AlgoTabou {
             List<Employé> centre = employésParCentres.get(i);
             System.out.println("Centre " + (i + 1) + ":");
             for (Employé employe : centre) {
-                System.out.println("ID : " + employe.getId() + ", ID Centre : " + employe.getCentreID());
+                System.out.println("Employé n°" + employe.getId() + ", ID Centre : " + employe.getCentreID());
             }
             System.out.println();
         }

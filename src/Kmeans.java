@@ -212,13 +212,16 @@ public class Kmeans {
 //        for (int i = 0; i < distancesComp.length; i++) {
 //            System.out.println("Distance " + i + ": " + distancesComp[i]);
 //        }
-        System.out.println(distancesComp[minIndex1]);
-        System.out.println(minIndex1 +  "      "+minIndex2);
+//        System.out.println(distancesComp[minIndex1]);
+//        System.out.println(minIndex1 +  "      "+minIndex2);
         // Ajouter les deux missions les plus proches à la liste de résultat
         closestMissions.add(clusterMissions.get(minIndex1));
         closestMissions.add(clusterMissions.get(minIndex2));
 //        System.out.println(clusterMissions.get(minIndex1));
+        System.out.println("\n************************************************************************");
         System.out.println("Missions les plus proches:");
+        System.out.println("************************************************************************");
+
 //        for (Mission objet : closestMissions) {
 //            System.out.println("Mission ID: " + objet.getId());
 //        }
