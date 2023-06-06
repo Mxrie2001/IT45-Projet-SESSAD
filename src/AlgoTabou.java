@@ -64,8 +64,21 @@ public class AlgoTabou {
     public void affectationEmployes(){
         // Affectation des missions aux employés pour chaque cluster
         for (int i = 0; i < this.nbClusters; i++) {
-            List<Mission> missions = this.missions.get(i);
+            List<Mission> mission = this.missions.get(i);
             List<Employé> employés = this.employésParCentres.get(i);
+
+            for (int j = 0; j < mission.size(); j++) {
+                Employé bestEmploye;
+                for (Employé employeCentre : employés) {
+                    if (employeCentre.getCompétence() == mission.get(j).getCompétence()) {
+                        bestEmploye = employeCentre;
+
+
+                    }
+                }
+
+
+            }
 
 
 

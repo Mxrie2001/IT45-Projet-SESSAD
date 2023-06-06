@@ -5,12 +5,12 @@ public class EmployéEdt {
     private boolean[] dispo4;
     private boolean[] dispo5;
 
-    public EmployéEdt(boolean[] dispo1, boolean[] dispo2, boolean[] dispo3, boolean[] dispo4, boolean[] dispo5) {
-        this.dispo1 = dispo1;
-        this.dispo2 = dispo2;
-        this.dispo3 = dispo3;
-        this.dispo4 = dispo4;
-        this.dispo5 = dispo5;
+    public EmployéEdt() {
+        this.dispo1 =  new boolean[24];
+        this.dispo2 = new boolean[24];
+        this.dispo3 = new boolean[24];
+        this.dispo4 = new boolean[24];
+        this.dispo5 = new boolean[24];
     }
 
     public boolean[] getDispo1() {
@@ -52,4 +52,22 @@ public class EmployéEdt {
     public void setDispo5(boolean[] dispo5) {
         this.dispo5 = dispo5;
     }
+
+    public void AfficherTab(boolean[] dispo){
+        for (boolean element : dispo) {
+            System.out.print(element + " ");
+        }
+    }
+
+
+    public String toStringEmployeEDT() {
+        return "EmployeEdt{" +
+                "dispo1=" + dispo1 +
+                ", dispo2=" + dispo2 +
+                ", dispo3=" + dispo3 +
+                ", dispo4=" + dispo4 +
+                ", dispo5=" + dispo5 +
+                '}';
+    }
 }
+

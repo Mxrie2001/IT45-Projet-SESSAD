@@ -82,6 +82,8 @@ public class Employé {
                 "id=" + id +
                 ", centreID='" + centreID + '\'' +
                 ", competence=" + compétence + '\'' +
-                ", specialité=" + spé + '\'' ;
+                ", specialité=" + spé + '\''+
+                ", employéEdt=" + employéEdt.toStringEmployeEDT();
+
     }
 }

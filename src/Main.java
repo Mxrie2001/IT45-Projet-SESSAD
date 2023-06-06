@@ -8,6 +8,7 @@ public class Main {
 
         List<Centre> centres = csvReader.CreateCenter("./src/instances/30Missions-2centres/centers.csv");
         List<Employé> employes = csvReader.CreateEmploye("./src/instances/30Missions-2centres/Employees.csv");
+//        employes.get(1).getEmployéEdt().AfficherTab(employes.get(1).getEmployéEdt().getDispo1());
         double[][] distanceMatrix = csvReader.createDistanceMatrix("./src/instances/30Missions-2centres/distances.csv");
         Kmeans kmeans = new Kmeans(distanceMatrix, centres, missions, centres.size());
         AlgoTabou tabou = new AlgoTabou(kmeans.getListesMissionsCluster(), employes, centres, centres.size());

@@ -91,7 +91,7 @@ public class CSVReader {
                         instanceCentre[2] += 1;
                     }
 
-                    Employé employe = new Employé(id, centreID, compétence, spé, null, null, 0.0);
+                    Employé employe = new Employé(id, centreID, compétence, spé, new EmployéEdt(), null, 0.0);
                     employes.add(employe);
                     i += 1;
 
