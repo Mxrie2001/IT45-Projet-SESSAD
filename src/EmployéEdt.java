@@ -6,11 +6,11 @@ public class EmployéEdt {
     private boolean[] dispo5;
 
     public EmployéEdt() {
-        this.dispo1 =  new boolean[24];
-        this.dispo2 = new boolean[24];
-        this.dispo3 = new boolean[24];
-        this.dispo4 = new boolean[24];
-        this.dispo5 = new boolean[24];
+        this.dispo1 =  new boolean[86400];
+        this.dispo2 = new boolean[86400];
+        this.dispo3 = new boolean[86400];
+        this.dispo4 = new boolean[86400];
+        this.dispo5 = new boolean[86400];
     }
 
     public boolean[] getDispo1() {
@@ -56,6 +56,14 @@ public class EmployéEdt {
     public void AfficherTab(boolean[] dispo){
         for (boolean element : dispo) {
             System.out.print(element + " ");
+        }
+    }
+
+    public void setElement(int index, boolean value, boolean[] tab) {
+        if (index >= 0 && index < tab.length) {
+            tab[index] = value;
+        } else {
+            System.out.println("Indice hors limites");
         }
     }
 

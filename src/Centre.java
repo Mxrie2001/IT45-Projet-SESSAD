@@ -1,16 +1,19 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Centre {
 
     private int id;
     private String nom;
     private int capacite;
-    private String[] affectation;
+    private List<Mission> affectation;
     private double distanceTrajets;
 
     public Centre(int id, String nom) {
         this.id = id;
         this.nom = nom;
+        this.affectation = new ArrayList<>();
     }
 
     public int getId() {
@@ -37,13 +40,6 @@ public class Centre {
         this.capacite = capacite;
     }
 
-    public String[] getAffectation() {
-        return affectation;
-    }
-
-    public void setAffectation(String[] affectation) {
-        this.affectation = affectation;
-    }
 
     public double getDistanceTrajets() {
         return distanceTrajets;
@@ -53,8 +49,8 @@ public class Centre {
         this.distanceTrajets = distanceTrajets;
     }
 
-    public void calculateCapacity(){
-
+    public void addMissionAffectee(List<Mission> list, Mission value) {
+        list.add(value);
     }
 
     public String toStringCentre() {
@@ -62,7 +58,6 @@ public class Centre {
                 "id=" + id +
                 ", nom='" + nom +
                 ", capacite=" + capacite +
-                ", affectation=" + Arrays.toString(affectation) +
                 ", distanceTrajets=" + distanceTrajets +
                 '}';
     }

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Employé {
@@ -11,13 +12,13 @@ public class Employé {
     private double distanceTrajets;
 
 
-    public Employé(int id, int centreID, String compétence, String spé, EmployéEdt employéEdt, List<Mission> affectation, double distanceTrajets) {
+    public Employé(int id, int centreID, String compétence, String spé, EmployéEdt employéEdt, double distanceTrajets) {
         this.id = id;
         this.centreID = centreID;
         this.compétence = compétence;
         this.spé = spé;
         this.employéEdt = employéEdt;
-        this.affectation = affectation;
+        this.affectation = new ArrayList<>();
         this.distanceTrajets = distanceTrajets;
     }
 
@@ -75,6 +76,10 @@ public class Employé {
 
     public void setDistanceTrajets(double distanceTrajets) {
         this.distanceTrajets = distanceTrajets;
+    }
+
+    public void addMissionAffectee(List<Mission> list, Mission value) {
+        list.add(value);
     }
 
     public String toStringEmploye() {

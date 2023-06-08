@@ -58,6 +58,12 @@ public class Main {
         tabou.repartitionEmployéCentre();
 
         System.out.println("\n************************************************************************");
+        System.out.println("Algorithme Tabou Sortie Missiono/Employés");
+        System.out.println("************************************************************************");
+
+        tabou.affectationEmployes();
+
+        System.out.println("\n************************************************************************");
         System.out.println("Algorithme Kmeans pour missions");
         System.out.println("************************************************************************");
         kmeans.findClosestMissions(missions.get(13-1));
