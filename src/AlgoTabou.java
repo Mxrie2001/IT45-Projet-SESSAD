@@ -198,7 +198,7 @@ public class AlgoTabou {
 
 
                     // On donne la meilleure correspondance
-                    if(total>totalBest){
+                    if(total>totalBest && total>=15){
                         bestEmploye = employeCentre;
                         totalBest = total;
                     }
