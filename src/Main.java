@@ -66,7 +66,8 @@ public class Main {
         System.out.println("\n************************************************************************");
         System.out.println("Algorithme Kmeans pour missions");
         System.out.println("************************************************************************");
-        kmeans.findClosestMissions(missions.get(13-1));
+        kmeans.findClosestMissions2(missions.get(29-1));
+        System.out.println(missions.get(29-1).getId());
 
 
     }

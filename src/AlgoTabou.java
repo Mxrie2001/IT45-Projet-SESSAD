@@ -214,9 +214,6 @@ public class AlgoTabou {
 
             }
 
-
-
-
         }
     }
 

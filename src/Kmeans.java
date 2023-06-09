@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Kmeans {
 
@@ -150,7 +148,92 @@ public class Kmeans {
 
     }
 
-    public List<Mission> findClosestMissions(Mission mission) {
+//    public List<Mission> findClosestMissions(Mission mission) {
+//        int clusterIndex = -1;
+//        List<List<Mission>> listesMissionsCluster2 = listesMissionsCluster;
+//
+//        // Trouver le cluster de la mission donnée
+//        for (int i = 0; i < listesMissionsCluster2.size(); i++) {
+//            if (listesMissionsCluster2.get(i).contains(mission)) {
+//                clusterIndex = i;
+//                break;
+//            }
+//        }
+//
+//        if (clusterIndex == -1) {
+//            System.out.println("La mission donnée n'appartient à aucun cluster");
+//            return null;
+//        }
+//
+//        // Liste des missions du cluster
+//        List<Mission> clusterMissions = listesMissionsCluster2.get(clusterIndex);
+//
+//        // Calculer les distances de la mission donnée par rapport aux autres missions du cluster
+//        double[] distancesComp = new double[clusterMissions.size()];
+//        int distanceIndex = 0;
+//        System.out.println("Distances entre la mission donnée et les autres missions du même cluster:");
+//        int IdexMissionCours=0;
+//        for (int i = 0; i < clusterMissions.size(); i++) {
+//            Mission otherMission = clusterMissions.get(i);
+//            // Utilisez votre matrice de distances ici
+//            if (otherMission == mission) {IdexMissionCours = i;}
+//            double distance = distances[mission.getId() + nbclusters - 1][otherMission.getId() + nbclusters - 1];
+//            distancesComp[distanceIndex] = distance;
+//            distanceIndex++;
+//            System.out.println("Distance entre la mission " + mission.getId() + " et la mission " + otherMission.getId() + ": " + distance);
+//
+//        }
+////        for (Mission objet : clusterMissions) {
+////            System.out.println("Mission ID: " + objet.getId());
+////        }
+//        // Trouver les deux missions les plus proches
+//        List<Mission> closestMissions = new ArrayList<>();
+//        int minIndex1 = -1;
+//        int minIndex2 = -1;
+//        double minDistance1 = Double.MAX_VALUE;
+//        double minDistance2 = Double.MAX_VALUE;
+//
+//        for (int i = 0; i < distancesComp.length; i++) {
+//            if (i != IdexMissionCours && !clusterMissions.get(i).isAffected()){
+//                if (distancesComp[i] < minDistance1) {
+//                    minDistance2 = minDistance1;
+//                    minIndex2 = minIndex1;
+//                    minDistance1 = distancesComp[i];
+//                    minIndex1 = i;
+//                } else if (distancesComp[i] < minDistance2) {
+//                    minDistance2 = distancesComp[i];
+//                    minIndex2 = i;
+//                }
+//            }
+//        }
+////        System.out.println("Tableau distancesComp:");
+////        for (int i = 0; i < distancesComp.length; i++) {
+////            System.out.println("Distance " + i + ": " + distancesComp[i]);
+////        }
+////        System.out.println(distancesComp[minIndex1]);
+////        System.out.println(minIndex1 +  "      "+minIndex2);
+//        // Ajouter les deux missions les plus proches à la liste de résultat
+//        closestMissions.add(clusterMissions.get(minIndex1));
+//        closestMissions.add(clusterMissions.get(minIndex2));
+////        System.out.println(clusterMissions.get(minIndex1));
+//        System.out.println("\n************************************************************************");
+//        System.out.println("Missions les plus proches:");
+//        System.out.println("************************************************************************");
+//
+////        for (Mission objet : closestMissions) {
+////            System.out.println("Mission ID: " + objet.getId());
+////        }
+//        // Afficher les missions les plus proches
+//        System.out.println("Mission la plus proche --> " + closestMissions.get(0).getId());
+//        System.out.println("Mission la deuxième plus proche --> " + closestMissions.get(1).getId());
+//
+//        return closestMissions;
+//    }
+
+
+    public Map<Mission, Double> findClosestMissions2(Mission mission) {
+        Map<Mission, Double> missionReturn = new HashMap<>();
+        int distanceIndex = 0;
         int clusterIndex = -1;
         List<List<Mission>> listesMissionsCluster2 = listesMissionsCluster;
 
@@ -169,67 +252,48 @@ public class Kmeans {
 
         // Liste des missions du cluster
         List<Mission> clusterMissions = listesMissionsCluster2.get(clusterIndex);
-
+        List<Mission> MissionOKListe = new ArrayList<>();
         // Calculer les distances de la mission donnée par rapport aux autres missions du cluster
         double[] distancesComp = new double[clusterMissions.size()];
-        int distanceIndex = 0;
         System.out.println("Distances entre la mission donnée et les autres missions du même cluster:");
-        int IdexMissionCours=0;
-        for (int i = 0; i < clusterMissions.size(); i++) {
-            Mission otherMission = clusterMissions.get(i);
-            // Utilisez votre matrice de distances ici
-            if (otherMission == mission) {IdexMissionCours = i;}
-            double distance = distances[mission.getId() + nbclusters - 1][otherMission.getId() + nbclusters - 1];
-            distancesComp[distanceIndex] = distance;
-            distanceIndex++;
-            System.out.println("Distance entre la mission " + mission.getId() + " et la mission " + otherMission.getId() + ": " + distance);
-
-        }
-//        for (Mission objet : clusterMissions) {
-//            System.out.println("Mission ID: " + objet.getId());
-//        }
-        // Trouver les deux missions les plus proches
-        List<Mission> closestMissions = new ArrayList<>();
-        int minIndex1 = -1;
-        int minIndex2 = -1;
-        double minDistance1 = Double.MAX_VALUE;
-        double minDistance2 = Double.MAX_VALUE;
-
-        for (int i = 0; i < distancesComp.length; i++) {
-            if (i != IdexMissionCours){
-                if (distancesComp[i] < minDistance1) {
-                    minDistance2 = minDistance1;
-                    minIndex2 = minIndex1;
-                    minDistance1 = distancesComp[i];
-                    minIndex1 = i;
-                } else if (distancesComp[i] < minDistance2) {
-                    minDistance2 = distancesComp[i];
-                    minIndex2 = i;
-                }
+        Mission closestMission = null;
+        for (Mission otherMission : clusterMissions) {
+            if ((otherMission.isAffected() == false) && (otherMission.getId() != mission.getId()) && (otherMission.VerifJour(otherMission, mission) == true)) {
+                MissionOKListe.add(otherMission);
             }
         }
-//        System.out.println("Tableau distancesComp:");
-//        for (int i = 0; i < distancesComp.length; i++) {
-//            System.out.println("Distance " + i + ": " + distancesComp[i]);
-//        }
-//        System.out.println(distancesComp[minIndex1]);
-//        System.out.println(minIndex1 +  "      "+minIndex2);
-        // Ajouter les deux missions les plus proches à la liste de résultat
-        closestMissions.add(clusterMissions.get(minIndex1));
-        closestMissions.add(clusterMissions.get(minIndex2));
-//        System.out.println(clusterMissions.get(minIndex1));
-        System.out.println("\n************************************************************************");
-        System.out.println("Missions les plus proches:");
-        System.out.println("************************************************************************");
 
-//        for (Mission objet : closestMissions) {
-//            System.out.println("Mission ID: " + objet.getId());
-//        }
-        // Afficher les missions les plus proches
-        System.out.println("Mission la plus proche --> " + closestMissions.get(0).getId());
-        System.out.println("Mission la deuxième plus proche --> " + closestMissions.get(1).getId());
+        if(MissionOKListe !=null){
+            double minDistance = Double.MAX_VALUE;
+            double closestDistance =0;
+            for (Mission missionOK : MissionOKListe) {
+                double distance = distances[mission.getId() + nbclusters - 1][missionOK.getId() + nbclusters - 1];
+                distancesComp[distanceIndex] = distance;
+                System.out.println("Distance entre la mission " + mission.getId() + " et la mission " + missionOK.getId() + ": " + distance);
 
-        return closestMissions;
+                if (distancesComp[distanceIndex]<minDistance) {
+                    closestMission = missionOK;
+                    minDistance=distancesComp[distanceIndex];
+                }
+                distanceIndex++;
+                System.out.println(distanceIndex);
+            }
+
+            System.out.println("\n************************************************************************");
+            System.out.println("Missions les plus proches:");
+            System.out.println("************************************************************************");
+            System.out.println("Mission la plus proche --> " + closestMission.getId());
+
+            missionReturn.put(closestMission, minDistance);
+            for (Map.Entry<Mission, Double> entry : missionReturn.entrySet()) {
+                Mission mission3 = entry.getKey();
+                double distance = entry.getValue();
+                System.out.println("Mission: " + mission3.getId() + ", Distance: " + distance);
+            }
+        }
+
+        return missionReturn;
+
     }
 
 }

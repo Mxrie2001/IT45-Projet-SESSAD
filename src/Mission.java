@@ -5,6 +5,7 @@ public class Mission {
     private String heure_fin;
     private String compétence;
     private String spé;
+    private boolean isAffected;
 
     public Mission(int id, String jour, String heure_debut, String heure_fin, String compétence, String spé) {
         this.id = id;
@@ -13,6 +14,16 @@ public class Mission {
         this.heure_fin = heure_fin;
         this.compétence = compétence;
         this.spé = spé;
+        this.isAffected=false;
+
+    }
+
+    public void setAffected(boolean affected) {
+        isAffected = affected;
+    }
+
+    public boolean isAffected() {
+        return isAffected;
     }
 
     public int getId() {
@@ -68,6 +79,14 @@ public class Mission {
                 ", compétence='" + compétence + '\'' +
                 ", spé='" + spé + '\'' +
                 '}';
+    }
+
+    public boolean VerifJour(Mission mission1, Mission mission2){
+        if(mission1.getJour().equals(mission2.getJour())){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }
