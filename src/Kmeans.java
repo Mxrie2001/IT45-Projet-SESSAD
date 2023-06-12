@@ -148,6 +148,92 @@ public class Kmeans {
 
     }
 
+    public Map<Mission, Double> findClosestMissionsToCentreJ(int clusterNum, String missionDay) {
+        int[][] centreMission = new int[this.distances.length - 2][this.nbclusters];
+        Map<Mission, Double> missionDistances = new HashMap<>();
+
+        // on commence à la 2 car on ne veut pas des distances des centres entre eux
+        for (int i = 2; i < this.distances.length; i++) {
+            double minimum = this.distances[i][0];
+            int minCol = 0;
+
+            // calcul la distance minimale entre les centres et la mission sélectionnée
+            for (int j = 1; j < this.nbclusters; j++) {
+                if (this.distances[i][j] < minimum) {
+                    minimum = this.distances[i][j];
+                    minCol = j;
+                }
+            }
+
+            centreMission[i-2][0] = i-1;
+            centreMission[i-2][1] = minCol+1;
+        }
+
+        // Recherche des missions les plus proches du même jour dans le cluster spécifié
+        for (int i = 0; i < centreMission.length; i++) {
+            if (centreMission[i][1] == clusterNum && missions.get(centreMission[i][0] - 1).getJour().equals(missionDay)) {
+                double distance = this.distances[centreMission[i][0]][centreMission[i][1] - 1];
+                missionDistances.put(missions.get(centreMission[i][0] - 1), distance);
+            }
+        }
+
+        // Tri des missions en fonction de leur distance (du plus proche au plus éloigné)
+        List<Map.Entry<Mission, Double>> sortedMissions = new ArrayList<>(missionDistances.entrySet());
+        sortedMissions.sort(Map.Entry.comparingByValue());
+
+        Map<Mission, Double> sortedMissionDistances = new LinkedHashMap<>();
+        for (Map.Entry<Mission, Double> entry : sortedMissions) {
+            sortedMissionDistances.put(entry.getKey(), entry.getValue());
+        }
+
+        return sortedMissionDistances;
+    }
+
+
+//
+//    public Map<Mission, Double> findClosestMissiontoCentreJ(int clusterNum, String missionDay) {
+//        int[][] centreMission = new int[this.distances.length - 2][this.nbclusters];
+//        Map<Mission, Double> missionReturn = new HashMap<>();
+//        // on commence à la 2 car on ne veut pas distances des centres entre eux
+//        for (int i = 2; i < this.distances.length; i++) {
+//            double minimum = this.distances[i][0];
+//            int minCol = 0;
+//
+//            // calcul la distance minimale entre les centres et la mission sélectionnée
+//            for (int j = 1; j < this.nbclusters; j++) {
+//                if (this.distances[i][j] < minimum) {
+//                    minimum = this.distances[i][j];
+//                    minCol = j;
+//                }
+//            }
+//
+//            centreMission[i-2][0] = i-1;
+//            centreMission[i-2][1] = minCol+1;
+//        }
+//
+//        // Recherche de la mission la plus proche du même jour dans le cluster spécifié
+//        int closestMissionIndex = -1;
+//        double closestDistance = Double.MAX_VALUE;
+//        for (int i = 0; i < centreMission.length; i++) {
+//            if (centreMission[i][1] == clusterNum && missions.get(centreMission[i][0] - 1).getJour().equals(missionDay)) {
+//                double distance = this.distances[centreMission[i][0]][centreMission[i][1] - 1];
+//                if (distance < closestDistance) {
+//                    closestDistance = distance;
+//                    closestMissionIndex = centreMission[i][0] - 1;
+//                }
+//            }
+//        }
+//
+//        if (closestMissionIndex != -1) {
+//            System.out.println("mission la plus proche du centre "+ clusterNum+ " au jour "+ missionDay + " est : "+ closestMissionIndex + " à " + closestDistance);
+//            missionReturn.put(missions.get(closestMissionIndex), closestDistance);
+//
+//        }
+//        return missionReturn;
+//    }
+//
+
+
 //    public List<Mission> findClosestMissions(Mission mission) {
 //        int clusterIndex = -1;
 //        List<List<Mission>> listesMissionsCluster2 = listesMissionsCluster;
@@ -280,7 +366,7 @@ public class Kmeans {
             }
 
             System.out.println("\n************************************************************************");
-            System.out.println("Missions les plus proches:");
+            System.out.println("Missions la plus proche:");
             System.out.println("************************************************************************");
             System.out.println("Mission la plus proche --> " + closestMission.getId());
 

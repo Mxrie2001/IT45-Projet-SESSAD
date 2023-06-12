@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
@@ -11,7 +12,7 @@ public class Main {
 //        employes.get(1).getEmployéEdt().AfficherTab(employes.get(1).getEmployéEdt().getDispo1());
         double[][] distanceMatrix = csvReader.createDistanceMatrix("./src/instances/30Missions-2centres/distances.csv");
         Kmeans kmeans = new Kmeans(distanceMatrix, centres, missions, centres.size());
-        AlgoTabou tabou = new AlgoTabou(kmeans.getListesMissionsCluster(), employes, centres, centres.size());
+        AlgoTabou tabou = new AlgoTabou(kmeans.getListesMissionsCluster(), employes, centres, centres.size(), kmeans);
 
         System.out.println("\n************************************************************************");
         System.out.println("Affichage des objets");
@@ -69,6 +70,20 @@ public class Main {
         kmeans.findClosestMissions2(missions.get(29-1));
         System.out.println(missions.get(29-1).getId());
 
+
+        System.out.println("\n************************************************************************");
+        System.out.println("Algorithme Mission la plus proche cluster par jour");
+        System.out.println("************************************************************************");
+
+        Map<Mission, Double> closestMissions = kmeans.findClosestMissionsToCentreJ(1, "1");
+
+        System.out.println("Missions les plus proches du centre 1 au jour 1 :");
+
+        for (Map.Entry<Mission, Double> entry : closestMissions.entrySet()) {
+            Mission mission = entry.getKey();
+            double distance = entry.getValue();
+            System.out.println("Mission n°" + mission.getId() + " - Distance : " + distance);
+        }
 
     }
 }

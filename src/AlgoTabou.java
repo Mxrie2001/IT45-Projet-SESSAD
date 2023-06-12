@@ -11,12 +11,15 @@ public class AlgoTabou {
 
     private int nbClusters;
 
+    private Kmeans kmeansmission;
 
-    public AlgoTabou(List<List<Mission>> missions, List<Employé> employes, List<Centre> centres, int nbClusters) {
+
+    public AlgoTabou(List<List<Mission>> missions, List<Employé> employes, List<Centre> centres, int nbClusters, Kmeans kmeansmission) {
         this.missions = missions;
         this.employes = employes;
         this.centres = centres;
         this.nbClusters = nbClusters;
+        this.kmeansmission = kmeansmission;
         this.employésParCentres = new ArrayList<>();
     }
 
@@ -60,6 +63,16 @@ public class AlgoTabou {
             System.out.println();
         }
 
+    }
+
+
+    public void affectationM1J(){
+        for (int i = 0; i < this.nbClusters; i++) {
+            List<Mission> mission = this.missions.get(i);
+            List<Employé> employés = this.employésParCentres.get(i);
+
+
+        }
     }
 
     public void affectationEmployes(){
