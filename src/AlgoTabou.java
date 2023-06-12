@@ -1,6 +1,8 @@
 import java.beans.beancontext.BeanContext;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class AlgoTabou {
     private List<List<Mission>> missions;
@@ -12,6 +14,10 @@ public class AlgoTabou {
     private int nbClusters;
 
     private Kmeans kmeansmission;
+
+    private int trajettotCentre1 = 0;
+    private int trajettotCentre2 = 0;
+    private int trajettotCentre3 = 0;
 
 
     public AlgoTabou(List<List<Mission>> missions, List<Employé> employes, List<Centre> centres, int nbClusters, Kmeans kmeansmission) {
@@ -66,14 +72,51 @@ public class AlgoTabou {
     }
 
 
-    public void affectationM1J(){
-        for (int i = 0; i < this.nbClusters; i++) {
-            List<Mission> mission = this.missions.get(i);
-            List<Employé> employés = this.employésParCentres.get(i);
+
+    public void affectationM1J() {
+        for (int jour = 1; jour < 6; jour++) {
+            for (int i = 1; i < this.nbClusters + 1; i++) {
+                Map<Mission, Double> closestMissions = kmeansmission.findClosestMissionsToCentreJ(i, String.valueOf(jour));
+                List<Employé> employés = this.employésParCentres.get(i - 1);
+                System.out.println("****************************************************************");
+                System.out.println("Missions les plus proches du centre " + i + " au jour:" + jour);
+                System.out.println("****************************************************************");
+
+                for (Map.Entry<Mission, Double> entry : closestMissions.entrySet()) {
+                    Mission mission = entry.getKey();
+                    double distance = entry.getValue();
+                    System.out.println("Mission n°" + mission.getId() + " - Distance : " + distance);
+
+                    Employé bestEmploye = null;
+                    int totalBest = 0;
+
+                    for (Employé employeCentre : employés) {
+                        int total = 0;
+
+                        if (employeCentre.getCompétence().equals(mission.getCompétence())) {
+                            total += 10;
+                        }
+
+                        if (employeCentre.getSpé().equals(mission.getSpé())) {
+                            total += 1;
+                        }
+
+                        // On donne la meilleure correspondance
+                        if (total > totalBest && total >= 10) {
+                            bestEmploye = employeCentre;
+                            totalBest = total;
+                        }
 
 
+                    }
+                    System.out.println("Meilleur employé pour la mission " + mission.getId() + " : Employé " + bestEmploye.getId());
+                    System.out.println("Total Pts Fitness : " + totalBest);
+                }
+
+            }
         }
     }
+
 
     public void affectationEmployes(){
         // Affectation des missions aux employés pour chaque cluster
@@ -138,7 +181,7 @@ public class AlgoTabou {
                         }
 
                     }
-                    System.out.println("Employé dispo? " + edtOk);
+//                    System.out.println("Employé dispo? " + edtOk);
 
                     // Voir si employé n'a pas trop travaillé adj si on rajoute cette mission
                     for (boolean value : dispoEmp) {
@@ -154,7 +197,7 @@ public class AlgoTabou {
                     }else{
                         HeureADJOk = false;
                     }
-                    System.out.println("Employé heure <7h adj? " + HeureADJOk);
+//                    System.out.println("Employé heure <7h adj? " + HeureADJOk);
 
 //                    System.out.println("Heure travaillées adj : " + countADJ);
 
@@ -192,13 +235,13 @@ public class AlgoTabou {
                     }else{
                         HeureSemaineOk = false;
                     }
-                    System.out.println("Employé heure <35h semaine? " + HeureSemaineOk);
+//                    System.out.println("Employé heure <35h semaine? " + HeureSemaineOk);
 
 
 
                     //Verifs finales
-                    System.out.println("Employé comp? " + employeCentre.getCompétence());
-                    System.out.println("Mission comp? " + mission.get(j).getCompétence());
+//                    System.out.println("Employé comp? " + employeCentre.getCompétence());
+//                    System.out.println("Mission comp? " + mission.get(j).getCompétence());
                     if (employeCentre.getCompétence().equals(mission.get(j).getCompétence())) {
                         total +=10;
                     }
@@ -221,7 +264,7 @@ public class AlgoTabou {
                 System.out.println("Meilleur employé pour la mission " + mission.get(j).getId() + " : Employé " + bestEmploye.getId());
                 System.out.println("Total Pts Fitness : " + totalBest);
 
-                affectationsMissionAEmployeEtCentre(bestEmploye, mission.get(j));
+//                affectationsMissionAEmployeEtCentre(bestEmploye, mission.get(j));
 
 
 

@@ -58,6 +58,13 @@ public class Main {
         System.out.println(tabou.toStringAlgoTabou());
         tabou.repartitionEmployéCentre();
 
+
+        System.out.println("\n************************************************************************");
+        System.out.println("Mission la plus proche centre par jour");
+        System.out.println("************************************************************************");
+        tabou.affectationM1J();
+
+
         System.out.println("\n************************************************************************");
         System.out.println("Algorithme Tabou Sortie Missiono/Employés");
         System.out.println("************************************************************************");
@@ -69,21 +76,6 @@ public class Main {
         System.out.println("************************************************************************");
         kmeans.findClosestMissions2(missions.get(29-1));
         System.out.println(missions.get(29-1).getId());
-
-
-        System.out.println("\n************************************************************************");
-        System.out.println("Algorithme Mission la plus proche cluster par jour");
-        System.out.println("************************************************************************");
-
-        Map<Mission, Double> closestMissions = kmeans.findClosestMissionsToCentreJ(1, "1");
-
-        System.out.println("Missions les plus proches du centre 1 au jour 1 :");
-
-        for (Map.Entry<Mission, Double> entry : closestMissions.entrySet()) {
-            Mission mission = entry.getKey();
-            double distance = entry.getValue();
-            System.out.println("Mission n°" + mission.getId() + " - Distance : " + distance);
-        }
 
     }
 }
