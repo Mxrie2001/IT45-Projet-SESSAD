@@ -16,11 +16,12 @@ public class AlgoTabou {
     private int trajettotCentre1 = 0;
     private int trajettotCentre2 = 0;
     private int trajettotCentre3 = 0;
+    double[][] distances;
 
-
-    public AlgoTabou(List<List<Mission>> missions, List<Employé> employes, List<Centre> centres, int nbClusters, Kmeans kmeansmission) {
+    public AlgoTabou(List<List<Mission>> missions, double[][] distances, List<Employé> employes, List<Centre> centres, int nbClusters, Kmeans kmeansmission) {
         this.missions = missions;
         this.employes = employes;
+        this.distances=distances;
         this.centres = centres;
         this.nbClusters = nbClusters;
         this.kmeansmission = kmeansmission;
@@ -496,5 +497,127 @@ public class AlgoTabou {
 
     }
 
+    public void utiliserAlgoTabou(List<List<List<Mission>>> listeCompatibilite) {
+        // Paramètres de l'algorithme tabou
+        int tailleTabou = 5; // Taille de la liste tabou
+        int maxIterations = 20; // Nombre maximum d'itérations
+
+        // Meilleurs chemins trouvés et distance minimale
+        List<List<List<Mission>>> meilleursChemins = new ArrayList<>();
+        double distanceMin = Double.MAX_VALUE;
+
+        // Boucle pour chaque employé
+        for (List<List<Mission>> missionsEmploye : listeCompatibilite) {
+            // Chemin courant initial avec les missions réparties par jour pour l'employé
+            List<List<Mission>> cheminCourant = new ArrayList<>(missionsEmploye);
+
+            // Variables tabou
+            Deque<List<List<Mission>>> listeTabou = new LinkedList<>();
+            listeTabou.add(cheminCourant);
+
+            // Boucle principale de l'algorithme
+            int iteration = 0;
+            while (iteration < maxIterations) {
+                // Générer une nouvelle permutation voisine du chemin courant
+                List<List<Mission>> voisin = genererVoisin(cheminCourant);
+
+                // Vérifier si le voisin est dans la liste tabou
+                if (!listeTabou.contains(voisin)) {
+                    // Calculer la distance du voisin
+                    double distanceVoisin = calculerDistance(voisin);
+
+                    // Mettre à jour les meilleurs chemins et la distance minimale si nécessaire
+                    if (distanceVoisin < distanceMin) {
+                        meilleursChemins.clear();
+                        meilleursChemins.add(new ArrayList<>(voisin));
+                        distanceMin = distanceVoisin;
+                    }
+
+                    // Mettre à jour le chemin courant avec le voisin
+                    cheminCourant = new ArrayList<>(voisin);
+
+                    // Ajouter le voisin à la liste tabou
+                    listeTabou.add(voisin);
+
+                    // Supprimer l'élément le plus ancien de la liste tabou si elle dépasse la taille tabou
+                    if (listeTabou.size() > tailleTabou) {
+                        listeTabou.removeFirst();
+                    }
+
+                    // Réinitialiser le compteur d'itérations
+                    iteration = 0;
+                }
+
+                // Incrémenter le compteur d'itérations
+                iteration++;
+            }
+        }
+
+        // Afficher les meilleurs chemins et leur distance totale
+        System.out.println("Meilleurs chemins :");
+        for (List<List<Mission>> chemin : meilleursChemins) {
+            System.out.println("Chemin :");
+            for (List<Mission> jour : chemin) {
+                for (Mission mission : jour) {
+                    System.out.println("Mission : " + mission.getId());
+                }
+            }
+        }
+        System.out.println("Distance totale : " + distanceMin);
+    }
+
+    // Méthode pour générer un voisin à partir d'une permutation donnée
+    private List<List<Mission>> genererVoisin(List<List<Mission>> permutation) {
+        List<List<Mission>> voisin = new ArrayList<>(permutation);
+
+        // Sélectionner aléatoirement deux positions dans la permutation
+        int position1 = new Random().nextInt(voisin.size());
+        int position2 = new Random().nextInt(voisin.size());
+
+        // Permuter les missions aux deux positions sélectionnées
+        List<Mission> jour1 = voisin.get(position1);
+        List<Mission> jour2 = voisin.get(position2);
+        voisin.set(position1, jour2);
+        voisin.set(position2, jour1);
+
+        return voisin;
+    }
+
+    // Méthode pour calculer la distance totale d'un chemin donné
+    private double calculerDistance(List<List<Mission>> chemin) {
+        double distanceTotale = 0.0;
+
+        // Parcourir le chemin et calculer la distance entre chaque paire de missions consécutives
+        for (List<Mission> jour : chemin) {
+            for (int i = 0; i < jour.size() - 1; i++) {
+                Mission missionCourante = jour.get(i);
+                Mission missionSuivante = jour.get(i + 1);
+                // Utiliser votre matrice de distances pour obtenir la distance entre les missions
+                double distance = distances[missionCourante.getId()][missionSuivante.getId()];
+                distanceTotale += distance;
+            }
+        }
+
+        return distanceTotale;
+    }
+
+
+
+    private List<Mission> genererPermutationAleatoire(List<List<List<Mission>>> listeCompatibilite) {
+        List<Mission> permutation = new ArrayList<>();
+
+        // Parcourir la liste de compatibilité et sélectionner aléatoirement une mission par jour
+        for (List<List<Mission>> jourCompatibilite : listeCompatibilite) {
+            for (List<Mission> missionCompatibilite : jourCompatibilite) {
+                if (!missionCompatibilite.isEmpty()) {
+                    Mission missionAleatoire = missionCompatibilite.get(new Random().nextInt(missionCompatibilite.size()));
+                    permutation.add(missionAleatoire);
+                    break;
+                }
+            }
+        }
+
+        return permutation;
+    }
 
 }

@@ -12,7 +12,7 @@ public class Main {
 //        employes.get(1).getEmployéEdt().AfficherTab(employes.get(1).getEmployéEdt().getDispo1());
         double[][] distanceMatrix = csvReader.createDistanceMatrix("./src/instances/30Missions-2centres/distances.csv");
         Kmeans kmeans = new Kmeans(distanceMatrix, employes, centres, missions, centres.size());
-        AlgoTabou tabou = new AlgoTabou(kmeans.getListesMissionsCluster(), employes, centres, centres.size(), kmeans);
+        AlgoTabou tabou = new AlgoTabou(kmeans.getListesMissionsCluster(), distanceMatrix, employes, centres, centres.size(), kmeans);
 
         System.out.println("\n************************************************************************");
         System.out.println("Affichage des objets");
@@ -50,8 +50,10 @@ public class Main {
 //        System.out.println(kmeans.toStringKmeans());
         kmeans.kmeansAlgorithme();
         kmeans.repartitionEmployéCentre();
-        kmeans.CompatibiliteMissionEmploye();
-
+//        double distance = kmeans.findDistance("mission", "centre", 20, 2);
+//        System.out.printf(String.valueOf(distance));
+        List<List<List<Mission>>> listeCompatibilite = kmeans.CompatibiliteMissionEmploye();
+        tabou.utiliserAlgoTabou(listeCompatibilite);
 //        System.out.println("\n************************************************************************");
 //        System.out.println("Algorithme Tabou");
 //        System.out.println("************************************************************************");

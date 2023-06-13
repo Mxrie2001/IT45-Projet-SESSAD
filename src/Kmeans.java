@@ -1,5 +1,7 @@
 import java.util.*;
 
+import static java.lang.Integer.parseInt;
+
 public class Kmeans {
 
 
@@ -186,40 +188,41 @@ public class Kmeans {
 
     }
 
-    public List<List<Mission>> CompatibiliteMissionEmploye()
-    {
-        List<List<Mission>> listeCompatibilite = new ArrayList<>();
+    public List<List<List<Mission>>> CompatibiliteMissionEmploye() {
+        List<List<List<Mission>>> listeCompatibilite = new ArrayList<>();
 
-        for (int i = 0; i < employésParCentres.size(); i++)
-        {
-            System.out.printf("centre " +i+1);
+        for (int i = 0; i < employésParCentres.size(); i++) {
             List<Employé> centre = employésParCentres.get(i);
-            for (Employé employe : centre)
-            {
-
-                List<Mission> missionCompatibleEmploye = new ArrayList<>();
-                for (Mission mission : listesMissionsCluster.get(i))
-                {
-                    if (employe.getCompétence().equals(mission.getCompétence()))
-                    {
-                        missionCompatibleEmploye.add(mission);
+            for (Employé employe : centre) {
+                List<List<Mission>> missionEmployeJour = new ArrayList<>();
+                for (int j = 0; j < 5; j++) {
+                    List<Mission> missionCompatibleEmploye = new ArrayList<>();
+                    for (Mission mission : listesMissionsCluster.get(i)) {
+                        if (Integer.parseInt(mission.getJour()) == (j + 1)) {
+                            if (employe.getCompétence().equals(mission.getCompétence())) {
+                                missionCompatibleEmploye.add(mission);
+                            }
+                        }
                     }
+                    missionEmployeJour.add(missionCompatibleEmploye);
                 }
-                listeCompatibilite.add(missionCompatibleEmploye);
+                listeCompatibilite.add(missionEmployeJour);
             }
         }
 
-        for (int i = 0; i < listeCompatibilite.size(); i++)
-        {
-            System.out.printf("employé " + (i+1) + "\n");
-            for (Mission mission : listeCompatibilite.get(i))
-            {
-                System.out.println("mission :" + mission.getId());
-            }
-        }
+//        for (int i = 0; i < listeCompatibilite.size(); i++) {
+//            System.out.println("Employé " + (i + 1) + "\n");
+//            for (int j = 0; j < 5; j++) {
+//                System.out.println("Jour : " + (j + 1));
+//                for (Mission mission : listeCompatibilite.get(i).get(j)) {
+//                    System.out.println("Mission : " + mission.getId());
+//                }
+//            }
+//        }
 
         return listeCompatibilite;
     }
+
 
 
 
@@ -465,4 +468,23 @@ public class Kmeans {
 
     }
 
+    public double findDistance(String type1, String type2, int id1, int id2) {
+
+        int recherche1 = id1;
+        int recherche2 = id2;
+
+        if (type1.equals("mission")) {
+            recherche1 = recherche1 + nbclusters - 1;
+        } else {
+            recherche1--;
+        }
+
+        if (type2.equals("mission")) {
+            recherche2 = recherche2 + nbclusters - 1;
+        } else {
+            recherche2--;
+        }
+
+        return distances[recherche1][recherche2];
+    }
 }
