@@ -82,6 +82,16 @@ public class Employé {
         list.add(value);
     }
 
+    public Mission getLastMissionAffectee() {
+        if (this.affectation != null && !this.affectation.isEmpty()) {
+            return this.affectation.get(this.affectation.size() - 1);
+        } else {
+            return null;
+        }
+    }
+
+
+
     public String toStringEmploye() {
         return "Employe{" +
                 "id=" + id +

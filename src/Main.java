@@ -64,18 +64,19 @@ public class Main {
         System.out.println("************************************************************************");
         tabou.affectationM1J();
 
+//
+//        System.out.println("\n************************************************************************");
+//        System.out.println("Algorithme Kmeans pour missions");
+//        System.out.println("************************************************************************");
+//        kmeans.findClosestMissions2(missions.get(29-1));
+//        System.out.println(missions.get(29-1).getId());
+
 
         System.out.println("\n************************************************************************");
-        System.out.println("Algorithme Tabou Sortie Missiono/Employés");
+        System.out.println("Algorithme Tabou Sortie Missions/Employés");
         System.out.println("************************************************************************");
 
-        tabou.affectationEmployes();
-
-        System.out.println("\n************************************************************************");
-        System.out.println("Algorithme Kmeans pour missions");
-        System.out.println("************************************************************************");
-        kmeans.findClosestMissions2(missions.get(29-1));
-        System.out.println(missions.get(29-1).getId());
+//        tabou.affectationEmployes();
 
     }
 }
