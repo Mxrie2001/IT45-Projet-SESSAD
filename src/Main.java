@@ -5,12 +5,12 @@ public class Main {
     public static void main(String[] args) {
         CSVReader csvReader = new CSVReader();
 
-        List<Mission> missions = csvReader.CreateMissions("./src/instances/30Missions-2centres/Missions.csv");
+        List<Mission> missions = csvReader.CreateMissions("./src/instances/66Missions-2centres/Missions.csv");
 
-        List<Centre> centres = csvReader.CreateCenter("./src/instances/30Missions-2centres/centers.csv");
-        List<Employé> employes = csvReader.CreateEmploye("./src/instances/30Missions-2centres/Employees.csv");
+        List<Centre> centres = csvReader.CreateCenter("./src/instances/66Missions-2centres/centers.csv");
+        List<Employé> employes = csvReader.CreateEmploye("./src/instances/66Missions-2centres/employees.csv");
 //        employes.get(1).getEmployéEdt().AfficherTab(employes.get(1).getEmployéEdt().getDispo1());
-        double[][] distanceMatrix = csvReader.createDistanceMatrix("./src/instances/30Missions-2centres/distances.csv");
+        double[][] distanceMatrix = csvReader.createDistanceMatrix("./src/instances/66Missions-2centres/distances.csv");
         Kmeans kmeans = new Kmeans(distanceMatrix, employes, centres, missions, centres.size());
         AlgoTabou tabou = new AlgoTabou(kmeans.getListesMissionsCluster(), distanceMatrix, employes, centres, centres.size(), kmeans);
 
@@ -52,8 +52,15 @@ public class Main {
         kmeans.repartitionEmployéCentre();
 //        double distance = kmeans.findDistance("mission", "centre", 20, 2);
 //        System.out.printf(String.valueOf(distance));
-        List<List<List<Mission>>> listeCompatibilite = kmeans.CompatibiliteMissionEmploye();
-        tabou.utiliserAlgoTabou(listeCompatibilite);
+        List<List<List<Mission>>> compatibiliteMissionEmployes = kmeans.CompatibiliteMissionEmploye();
+        List<List<Object>> employesMissionsCommunes = kmeans.trouverEmployesAvecMemesMissions(compatibiliteMissionEmployes);
+        kmeans.afficherEmployesMissionsCommunes(employesMissionsCommunes);
+
+
+//        kmeans.trouverPossibilitesUniques(compatibiliteMissionEmployes);
+
+//        kmeans.PossibilitesMissionEmploye(compatibiliteMissionEmployes);
+//        tabou.utiliserAlgoTabou(listeCompatibilite);
 //        System.out.println("\n************************************************************************");
 //        System.out.println("Algorithme Tabou");
 //        System.out.println("************************************************************************");

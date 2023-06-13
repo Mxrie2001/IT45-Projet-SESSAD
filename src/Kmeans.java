@@ -210,18 +210,156 @@ public class Kmeans {
             }
         }
 
-//        for (int i = 0; i < listeCompatibilite.size(); i++) {
-//            System.out.println("Employé " + (i + 1) + "\n");
-//            for (int j = 0; j < 5; j++) {
-//                System.out.println("Jour : " + (j + 1));
-//                for (Mission mission : listeCompatibilite.get(i).get(j)) {
-//                    System.out.println("Mission : " + mission.getId());
-//                }
-//            }
-//        }
+
+        for (int i = 0; i < listeCompatibilite.size(); i++) {
+            System.out.println("***************************************************");
+            System.out.println("Employé " + (i + 1));
+            System.out.println("***************************************************");
+            for (int j = 0; j < 5; j++) {
+                System.out.println("Jour : " + (j + 1));
+                for (Mission mission : listeCompatibilite.get(i).get(j)) {
+                    System.out.println("Mission : " + mission.getId());
+                }
+            }
+        }
 
         return listeCompatibilite;
     }
+
+//
+//    public List<List<List<List<Mission>>>> PossibilitesMissionEmploye(List<List<List<Mission>>> missionCompatiblesEmployes) {
+//        List<List<List<List<Mission>>>> listePossibilitees = new ArrayList<>();
+//
+//
+//
+//        return listePossibilitees;
+//    }
+
+
+    public List<List<Object>> trouverEmployesAvecMemesMissions(List<List<List<Mission>>> listeCompatibilite) {
+        Map<List<Integer>, Set<Integer>> missionsCommunes = new HashMap<>();
+
+        for (int i = 0; i < listeCompatibilite.size(); i++) {
+            for (int j = 0; j < 5; j++) {
+                List<Mission> missions = listeCompatibilite.get(i).get(j);
+                List<Integer> missionIds = new ArrayList<>();
+                for (Mission mission : missions) {
+                    missionIds.add(mission.getId());
+                }
+
+                if (missionsCommunes.containsKey(missionIds)) {
+                    Set<Integer> employes = missionsCommunes.get(missionIds);
+                    employes.add(i + 1);
+                } else {
+                    Set<Integer> employes = new HashSet<>();
+                    employes.add(i + 1);
+                    missionsCommunes.put(missionIds, employes);
+                }
+            }
+        }
+
+        List<List<Object>> employesMissionsCommunes = new ArrayList<>();
+        for (Map.Entry<List<Integer>, Set<Integer>> entry : missionsCommunes.entrySet()) {
+            List<Integer> missionIds = entry.getKey();
+            Set<Integer> employes = entry.getValue();
+
+            List<Object> employeMissionsCommunes = new ArrayList<>();
+            employeMissionsCommunes.add(employes);
+            employeMissionsCommunes.add(missionIds);
+
+            employesMissionsCommunes.add(employeMissionsCommunes);
+        }
+
+        return employesMissionsCommunes;
+    }
+
+    public void afficherEmployesMissionsCommunes(List<List<Object>> employesMissionsCommunes) {
+        for (List<Object> employeMissionsCommunes : employesMissionsCommunes) {
+            Set<Integer> employes = (Set<Integer>) employeMissionsCommunes.get(0);
+            List<Integer> missionIds = (List<Integer>) employeMissionsCommunes.get(1);
+
+            System.out.println("***************************************************");
+            System.out.println("Missions communes :");
+            for (Integer missionId : missionIds) {
+                System.out.println("- Mission ID : " + missionId);
+            }
+            System.out.println("Employés : " + employes);
+        }
+    }
+
+
+
+    public List<List<List<List<Mission>>>> trouverPossibilitesUniques(List<List<List<Mission>>> listeCompatibilite) {
+        List<List<List<List<Mission>>>> possibilitesUniques = new ArrayList<>();
+
+        Map<List<Integer>, Set<Integer>> missionsCommunes = new HashMap<>();
+
+        for (int i = 0; i < listeCompatibilite.size(); i++) {
+            for (int j = 0; j < 5; j++) {
+                List<Mission> missions = listeCompatibilite.get(i).get(j);
+                List<Integer> missionIds = new ArrayList<>();
+                for (Mission mission : missions) {
+                    missionIds.add(mission.getId());
+                }
+
+                if (missionsCommunes.containsKey(missionIds)) {
+                    Set<Integer> employes = missionsCommunes.get(missionIds);
+                    employes.add(i + 1);
+                } else {
+                    Set<Integer> employes = new HashSet<>();
+                    employes.add(i + 1);
+                    missionsCommunes.put(missionIds, employes);
+                }
+            }
+        }
+
+        for (Map.Entry<List<Integer>, Set<Integer>> entry : missionsCommunes.entrySet()) {
+            List<Integer> missionIds = entry.getKey();
+            Set<Integer> employes = entry.getValue();
+
+            if (employes.size() == listeCompatibilite.size()) {
+                List<List<List<Mission>>> possibiliteUnique = new ArrayList<>();
+                for (int j = 0; j < 5; j++) {
+                    List<List<Mission>> missionsJour = new ArrayList<>();
+                    for (int k = 0; k < listeCompatibilite.size(); k++) {
+                        List<Mission> missionsEmploye = new ArrayList<>();
+                        for (Integer missionId : missionIds) {
+                            System.out.println("Mission " + missionId + "");
+                            Mission mission = missions.get(missionId);
+                            missionsEmploye.add(mission);
+                        }
+                        missionsJour.add(missionsEmploye);
+                    }
+                    possibiliteUnique.add(missionsJour);
+                }
+                possibilitesUniques.add(possibiliteUnique);
+
+                // Affichage de la possibilité unique
+                System.out.println("***************************************************");
+                System.out.println("Possibilité " + possibilitesUniques.size());
+                System.out.println("***************************************************");
+                for (int j = 0; j < possibiliteUnique.get(0).size(); j++) {
+                    System.out.println("Employé " + (j + 1));
+                    System.out.println("---------------");
+                    for (int k = 0; k < possibiliteUnique.size(); k++) {
+                        System.out.println("Jour " + (k + 1));
+                        System.out.println("-----------");
+                        List<Mission> missions = possibiliteUnique.get(k).get(j);
+                        for (Mission mission : missions) {
+                            System.out.println("Mission ID : " + mission.getId());
+                        }
+                    }
+                }
+            }
+        }
+
+        return possibilitesUniques;
+    }
+
+
+
+
+
 
 
 
