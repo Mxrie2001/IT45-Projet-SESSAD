@@ -11,7 +11,7 @@ public class Main {
         List<Employé> employes = csvReader.CreateEmploye("./src/instances/30Missions-2centres/Employees.csv");
 //        employes.get(1).getEmployéEdt().AfficherTab(employes.get(1).getEmployéEdt().getDispo1());
         double[][] distanceMatrix = csvReader.createDistanceMatrix("./src/instances/30Missions-2centres/distances.csv");
-        Kmeans kmeans = new Kmeans(distanceMatrix, centres, missions, centres.size());
+        Kmeans kmeans = new Kmeans(distanceMatrix, employes, centres, missions, centres.size());
         AlgoTabou tabou = new AlgoTabou(kmeans.getListesMissionsCluster(), employes, centres, centres.size(), kmeans);
 
         System.out.println("\n************************************************************************");
@@ -49,34 +49,35 @@ public class Main {
 
 //        System.out.println(kmeans.toStringKmeans());
         kmeans.kmeansAlgorithme();
+        kmeans.repartitionEmployéCentre();
+        kmeans.CompatibiliteMissionEmploye();
 
+//        System.out.println("\n************************************************************************");
+//        System.out.println("Algorithme Tabou");
+//        System.out.println("************************************************************************");
 
-        System.out.println("\n************************************************************************");
-        System.out.println("Algorithme Tabou");
-        System.out.println("************************************************************************");
-
-        System.out.println(tabou.toStringAlgoTabou());
-        tabou.repartitionEmployéCentre();
-
-
-        System.out.println("\n************************************************************************");
-        System.out.println("Mission la plus proche centre par jour");
-        System.out.println("************************************************************************");
-        tabou.affectationM1J();
+//        System.out.println(tabou.toStringAlgoTabou());
+//        tabou.repartitionEmployéCentre();
 
 //
 //        System.out.println("\n************************************************************************");
-//        System.out.println("Algorithme Kmeans pour missions");
+//        System.out.println("Mission la plus proche centre par jour");
 //        System.out.println("************************************************************************");
-//        kmeans.findClosestMissions2(missions.get(29-1));
-//        System.out.println(missions.get(29-1).getId());
-
-
-        System.out.println("\n************************************************************************");
-        System.out.println("Algorithme Tabou Sortie Missions/Employés");
-        System.out.println("************************************************************************");
-
-//        tabou.affectationEmployes();
+//        tabou.affectationM1J();
+//
+////
+////        System.out.println("\n************************************************************************");
+////        System.out.println("Algorithme Kmeans pour missions");
+////        System.out.println("************************************************************************");
+////        kmeans.findClosestMissions2(missions.get(29-1));
+////        System.out.println(missions.get(29-1).getId());
+//
+//
+//        System.out.println("\n************************************************************************");
+//        System.out.println("Algorithme Tabou Sortie Missions/Employés");
+//        System.out.println("************************************************************************");
+//
+////        tabou.affectationEmployes();
 
     }
 }

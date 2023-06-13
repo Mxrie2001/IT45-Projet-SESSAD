@@ -14,17 +14,21 @@ public class Kmeans {
 
     private List<List<Mission>> listesMissionsCluster;
 
+    private List<List<Employé>> employésParCentres;
+
+    private List<Employé> employes;
 
 
 
 
-
-    public Kmeans(double[][] distances, List<Centre> centres, List<Mission> missions, int nbclusters) {
+    public Kmeans(double[][] distances, List<Employé> employes, List<Centre> centres, List<Mission> missions, int nbclusters) {
         this.distances = distances;
         this.centres = centres;
         this.nbclusters = nbclusters;
         this.missions = missions;
+        this.employes=employes;
         this.listesMissionsCluster = new ArrayList<>();
+        this.employésParCentres = new ArrayList<>();
     }
 
     public List<List<Mission>> getListesMissionsCluster() {
@@ -147,6 +151,85 @@ public class Kmeans {
         }
 
     }
+
+
+    public void repartitionEmployéCentre() {
+        for (Employé employe : employes) {
+            boolean isNewCentre = true;
+            for (List<Employé> centre : employésParCentres) {
+                if (!centre.isEmpty() && centre.get(0).getCentreID() == employe.getCentreID()) {
+                    centre.add(employe);
+                    isNewCentre = false;
+                    break;
+                }
+            }
+            if (isNewCentre) {
+                List<Employé> nouveauCentre = new ArrayList<>();
+                nouveauCentre.add(employe);
+                employésParCentres.add(nouveauCentre);
+            }
+        }
+
+        // Affichage des employés par centres
+        System.out.println("\n************************************************************************");
+        System.out.println("Repartition employés par centres");
+        System.out.println("************************************************************************");
+
+        for (int i = 0; i < employésParCentres.size(); i++) {
+            List<Employé> centre = employésParCentres.get(i);
+            System.out.println("Centre " + (i + 1) + ":");
+            for (Employé employe : centre) {
+                System.out.println("Employé n°" + employe.getId() + ", ID Centre : " + employe.getCentreID());
+            }
+            System.out.println();
+        }
+
+    }
+
+    public List<List<Mission>> CompatibiliteMissionEmploye()
+    {
+        List<List<Mission>> listeCompatibilite = new ArrayList<>();
+
+        for (int i = 0; i < employésParCentres.size(); i++)
+        {
+            System.out.printf("centre " +i+1);
+            List<Employé> centre = employésParCentres.get(i);
+            for (Employé employe : centre)
+            {
+
+                List<Mission> missionCompatibleEmploye = new ArrayList<>();
+                for (Mission mission : listesMissionsCluster.get(i))
+                {
+                    if (employe.getCompétence().equals(mission.getCompétence()))
+                    {
+                        missionCompatibleEmploye.add(mission);
+                    }
+                }
+                listeCompatibilite.add(missionCompatibleEmploye);
+            }
+        }
+
+        for (int i = 0; i < listeCompatibilite.size(); i++)
+        {
+            System.out.printf("employé " + (i+1) + "\n");
+            for (Mission mission : listeCompatibilite.get(i))
+            {
+                System.out.println("mission :" + mission.getId());
+            }
+        }
+
+        return listeCompatibilite;
+    }
+
+
+
+
+
+
+
+
+
+
 
     public Map<Mission, Double> findClosestMissionsToCentreJ(int clusterNum, String missionDay) {
         int[][] centreMission = new int[this.distances.length - 2][this.nbclusters];
