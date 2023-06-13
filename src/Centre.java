@@ -8,6 +8,8 @@ public class Centre {
     private String nom;
     private int capacite;
     private List<Mission> affectation;
+
+    private List<Employé> employe;
     private double distanceTrajets;
 
     public Centre(int id, String nom) {
@@ -49,8 +51,12 @@ public class Centre {
         this.distanceTrajets = distanceTrajets;
     }
 
-    public void addMissionAffectee(List<Mission> list, Mission value) {
-        list.add(value);
+    public void addMissionAffectee(Mission value) {
+        this.affectation.add(value);
+    }
+
+    public void addEmploye(Employé value) {
+        this.employe.add(value);
     }
 
     public String toStringCentre() {

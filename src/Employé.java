@@ -11,6 +11,8 @@ public class Employé {
     private List<Mission> affectation;
     private double distanceTrajets;
 
+    private int score;
+
 
     public Employé(int id, int centreID, String compétence, String spé, EmployéEdt employéEdt, double distanceTrajets) {
         this.id = id;
@@ -20,6 +22,7 @@ public class Employé {
         this.employéEdt = employéEdt;
         this.affectation = new ArrayList<>();
         this.distanceTrajets = distanceTrajets;
+        this.score = 0;
     }
 
     public int getId() {
@@ -28,6 +31,14 @@ public class Employé {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public int getCentreID() {
@@ -78,8 +89,16 @@ public class Employé {
         this.distanceTrajets = distanceTrajets;
     }
 
-    public void addMissionAffectee(List<Mission> list, Mission value) {
-        list.add(value);
+    public void addMissionAffectee(Mission value) {
+        this.affectation.add(value);
+    }
+
+    public void removeMissionFromAffectation(Mission mission) {
+        affectation.remove(mission);
+    }
+
+    public boolean isInAffectation(Mission mission) {
+        return affectation.contains(mission);
     }
 
     public Mission getLastMissionAffectee() {
