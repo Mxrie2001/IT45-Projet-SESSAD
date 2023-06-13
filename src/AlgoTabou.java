@@ -300,4 +300,74 @@ public class AlgoTabou {
     }
 
 
+
+//    public void creationCheminOptimal(List<CoupleEmployéMission> listeCouples){
+//        List<List<Mission>> cheminOptiEmployees = new ArrayList<>();
+//        for (CoupleEmployéMission couple : listeCouples){
+//
+//
+//        }
+//    }
+
+
+    public void affichageCheminOptimaux() {
+
+            for(Employé employe : employes){
+                System.out.println("\nEmployé " + employe.getId() + " assigné au centre n°" + employe.getCentreID());
+                List<Mission> affectation = employe.getAffectation();
+                for(int jour = 1; jour<=5; jour++) {
+                    double distanceOpti = 0.0;
+                    System.out.println("Jour "+ jour);
+
+                    List<Mission> missionsTemporaires = new ArrayList<>();
+
+                    for (Mission mission : affectation) {
+                        if (Integer.parseInt(mission.getJour()) == jour) {
+                            missionsTemporaires.add(mission);
+                        }
+                    }
+
+                    for (Mission mission : missionsTemporaires) {
+
+                         if (this.estPremierElement(missionsTemporaires, mission) && this.estDernierElement(missionsTemporaires, mission)) {
+                            distanceOpti += kmeansmission.findDistance("centre", "mission", employe.getCentreID(), mission.getId());
+                            distanceOpti += kmeansmission.findDistance("mission", "centre", mission.getId(), employe.getCentreID());
+                        }else{
+                             if(this.estPremierElement(missionsTemporaires, mission)){
+                                 distanceOpti += kmeansmission.findDistance("centre", "mission", employe.getCentreID(), mission.getId());
+                             } else if (this.estDernierElement(missionsTemporaires, mission)) {
+                                 Mission missionPrec = this.getElementPrecedent(missionsTemporaires, mission);
+                                 distanceOpti += kmeansmission.findDistance("mission", "mission", missionPrec.getId(), mission.getId());
+                                 distanceOpti += kmeansmission.findDistance("mission", "centre", mission.getId(), employe.getCentreID());
+                             }else{
+                                 Mission missionPrec = this.getElementPrecedent(missionsTemporaires, mission);
+                                 distanceOpti += kmeansmission.findDistance("mission", "mission", missionPrec.getId(), mission.getId());
+                             }
+                         }
+
+                        System.out.print("-" + mission.getId() + "-" );
+                    }
+                    System.out.println(" => distance opti = " + distanceOpti);
+                }
+            }
+
+    }
+
+
+    public boolean estPremierElement(List<Mission> liste, Mission element){
+        return liste.get(0).equals(element);
+    }
+
+    public boolean estDernierElement(List<Mission> liste, Mission element){
+        return liste.get(liste.size() - 1).equals(element);
+    }
+
+    public Mission getElementPrecedent(List<Mission> liste, Mission element){
+        int indexCourant = liste.indexOf(element);
+        Mission elementPrecedent = liste.get(indexCourant - 1);
+
+        return elementPrecedent;
+    }
+
+
 }

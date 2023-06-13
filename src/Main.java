@@ -64,10 +64,22 @@ public class Main {
 
             for (int jour = 1; jour <=5; jour++){
                 System.out.println("****************** Jour "+ jour + " ******************");
-                tabou.comparerEtSupprimerDoublonsMission(centre,jour);
+                tabou.comparerEtSupprimerDoublonsMission(centre,jour); //recherche de couple optimaux
                 //pb entre les centre si mission pas par cluster??? juste pour 66? si pb mettre missionCluster à la place de mission dans kmeans création couple
             }
         }
+
+
+
+
+        System.out.println("\n************************************************************************");
+        System.out.println("Résultats optimaux pour chaques employés");
+        System.out.println("************************************************************************");
+        tabou.affichageCheminOptimaux();
+
+        //ajouter distance par centre --> récuperer les distances par jour/employé
+        //manque la gestion du temps de trajet dans tabou
+        // ajouter la verif pour les doublons en fonction des competences des employés des centres(voir feuile)
 
 
     }
