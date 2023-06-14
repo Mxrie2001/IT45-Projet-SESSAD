@@ -536,8 +536,7 @@ public class AlgoTabou {
             for(Employé em : employes){
                 this.majScoreEmploye(em, mission);
                 int score = em.getScore();
-
-                if(score > 16 && score >=  bestScore) {
+                if(score >= 16 && score >=  bestScore) {
                     bestEmploye = em;
                     bestScore = score;
                 }

@@ -71,10 +71,8 @@ public class Main {
             for (int jour = 1; jour <=5; jour++){
                 System.out.println("****************** Jour "+ jour + " ******************");
                 tabou.comparerEtSupprimerDoublonsMission(centre,jour); //recherche de couple optimaux
-                //pb entre les centre si mission pas par cluster??? juste pour 66? si pb mettre missionCluster à la place de mission dans kmeans création couple
             }
         }
-
 
 
         tabou.affecterMissionPasAffectees(tabou.RetourneMissionPasAffectee());
@@ -85,12 +83,14 @@ public class Main {
         System.out.println("************************************************************************");
         tabou.affichageCheminOptimaux();
 
-        //ajouter distance par centre --> récuperer les distances par jour/employé
-        //manque la gestion du temps de trajet dans tabou
-        // ajouter la verif pour les doublons en fonction des competences des employés des centres(voir feuile)
 
+        
         tabou.verifAlgoOK();
 
+        //Autres vérifs
+        System.out.println("Toute les missions affecté?" + tabou.verifAllMissionaffected());
+        System.out.println("Affichage des doublons du resultat : " + tabou.AllMissionaffectedDoublons());
+        System.out.println("Affichage des missions pas affecté : " + tabou.RetourneMissionPasAffectee());
 
         //Pour avoir le temps d'execution --> fin du chono et affichage
         long tempsFin = System.currentTimeMillis();
@@ -98,11 +98,6 @@ public class Main {
 
         System.out.println("\n \nTemps d'exécution : " + tempsExecution + " millisecondes");
 
-
-        //Est ce que toute les missions sont affectés
-        System.out.println("missions affecté ok?" + tabou.verifAllMissionaffected());
-        System.out.println("Affichage des doublons du resultat : " + tabou.AllMissionaffectedDoublons());
-        System.out.println("Affichage des missions pas affecté : " + tabou.RetourneMissionPasAffectee());
 
 
     }
