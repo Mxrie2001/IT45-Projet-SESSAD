@@ -13,12 +13,12 @@ public class Main {
 
         CSVReader csvReader = new CSVReader();
 
-        List<Mission> missions = csvReader.CreateMissions("./src/instances/66Missions-2centres/Missions.csv");
+        List<Mission> missions = csvReader.CreateMissions("./src/instances/30Missions-2centres/Missions.csv");
 
-        List<Centre> centres = csvReader.CreateCenter("./src/instances/66Missions-2centres/centers.csv");
-        List<Employé> employes = csvReader.CreateEmploye("./src/instances/66Missions-2centres/employees.csv");
+        List<Centre> centres = csvReader.CreateCenter("./src/instances/30Missions-2centres/centers.csv");
+        List<Employé> employes = csvReader.CreateEmploye("./src/instances/30Missions-2centres/Employees.csv");
 //        employes.get(1).getEmployéEdt().AfficherTab(employes.get(1).getEmployéEdt().getDispo1());
-        double[][] distanceMatrix = csvReader.createDistanceMatrix("./src/instances/66Missions-2centres/distances.csv");
+        double[][] distanceMatrix = csvReader.createDistanceMatrix("./src/instances/30Missions-2centres/distances.csv");
         Kmeans kmeans = new Kmeans(distanceMatrix, employes, centres, missions, centres.size());
         AlgoTabou tabou = new AlgoTabou(kmeans.getListesMissionsCluster(), distanceMatrix, employes, centres, centres.size(), kmeans, missions);
 
@@ -77,6 +77,8 @@ public class Main {
 
 
 
+        tabou.affecterMissionPasAffectees(tabou.RetourneMissionPasAffectee());
+        tabou.suppressionDoublonApresAffectation(tabou.AllMissionaffectedDoublons());
 
         System.out.println("\n************************************************************************");
         System.out.println("Résultats optimaux pour chaques employés");
@@ -95,6 +97,12 @@ public class Main {
         long tempsExecution = tempsFin - tempsDebut;
 
         System.out.println("\n \nTemps d'exécution : " + tempsExecution + " millisecondes");
+
+
+        //Est ce que toute les missions sont affectés
+        System.out.println("missions affecté ok?" + tabou.verifAllMissionaffected());
+        System.out.println("Affichage des doublons du resultat : " + tabou.AllMissionaffectedDoublons());
+        System.out.println("Affichage des missions pas affecté : " + tabou.RetourneMissionPasAffectee());
 
 
     }

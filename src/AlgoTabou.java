@@ -495,7 +495,138 @@ public class AlgoTabou {
 
 
 
+    public boolean verifAllMissionaffected(){
 
+        List<Mission> allMissionAffected = new ArrayList<>();
+        for(Employé employe : employes){
+            allMissionAffected.addAll(employe.getAffectation());
+        }
+
+        return allMissionAffected.containsAll(this.allMissions);
+    }
+
+
+    public List<Mission> RetourneMissionPasAffectee(){
+
+        List<Mission> missionPasAffected = new ArrayList<>();
+
+        List<Mission> allMissionAffected = new ArrayList<>();
+
+        for(Employé employe : employes){
+            allMissionAffected.addAll(employe.getAffectation());
+        }
+
+        for (Mission mission : allMissions) {
+            if (!allMissionAffected.contains(mission)) {
+                missionPasAffected.add(mission);
+            }
+        }
+
+        return missionPasAffected;
+    }
+
+
+    public void affecterMissionPasAffectees(List<Mission> missionPasAffectees){
+
+        for(Mission mission : missionPasAffectees){
+            int bestScore = 0;
+            double minDistance = 99999;
+            Employé bestEmploye = null;
+
+            for(Employé em : employes){
+                this.majScoreEmploye(em, mission);
+                int score = em.getScore();
+
+                if(score > 16 && score >=  bestScore) {
+                    bestEmploye = em;
+                    bestScore = score;
+                }
+            }
+
+            this.affecterMission(bestEmploye, mission);
+            this.majEDTEmploye(bestEmploye, Integer.parseInt(mission.getJour()), Integer.parseInt(mission.getHeure_debut()), Integer.parseInt(mission.getHeure_fin()), true);
+
+        }
+
+    }
+
+    public List<Mission> AllMissionaffectedDoublons(){
+
+        List<Mission> missionDoubles = new ArrayList<>();
+        List<Mission> allMissionAffected = new ArrayList<>();
+
+        for(Employé employe : employes){
+            allMissionAffected.addAll(employe.getAffectation());
+        }
+
+        for (int i = 0; i < allMissionAffected.size(); i++) {
+            Mission m = allMissionAffected.get(i);
+            for (int j = i + 1; j < allMissionAffected.size(); j++) {
+                if (m.equals(allMissionAffected.get(j)) && !missionDoubles.contains(m)) {
+                    missionDoubles.add(m);
+                    break;
+                }
+            }
+        }
+
+        return missionDoubles;
+    }
+
+
+    public void suppressionDoublonApresAffectation(List<Mission> missionDouble){
+
+        for(Mission mission : missionDouble){
+
+            List<Employé> employeQuiAMissionDoubles = new ArrayList<>();
+
+            for(Employé e : employes){
+                if(e.getAffectation().contains(mission)){
+                    employeQuiAMissionDoubles.add(e);
+                }
+            }
+            int bestScore = 0;
+            double minDistance = 99999;
+            Employé bestEmploye = null;
+            for(Employé em : employeQuiAMissionDoubles){
+                int score = 0;
+                if (em.getSpé().equals(mission.getSpé())){
+                    score += 1;
+                }
+                if(score > bestScore){
+                    bestEmploye = em;
+                    bestScore = score;
+                }
+            }
+            if(bestScore == 0){
+                for(Employé em : employeQuiAMissionDoubles){
+                    int score = 0;
+                    double dist = 0.0;
+                    if(em.getLastMissionAffectee() != null){
+                        dist = kmeansmission.findDistance("mission", "mission", em.getLastMissionAffectee().getId(), mission.getId());
+                    }
+                    if(em.getLastMissionAffectee() == null){
+                        dist = kmeansmission.findDistance("centre", "mission", em.getCentreID(), mission.getId());
+                    }
+
+                    if(dist< minDistance){
+                        score +=1;
+                    }
+
+                    if(score > bestScore){
+                        bestEmploye = em;
+                        bestScore = score;
+                    }
+                }
+            }
+
+            for(Employé employe : employeQuiAMissionDoubles) {
+                if (employe != bestEmploye) {
+                    this.removemissionAffectee(employe, mission);
+                    this.majEDTEmploye(employe, Integer.parseInt(mission.getJour()), Integer.parseInt(mission.getHeure_debut()), Integer.parseInt(mission.getHeure_fin()), false);
+                }
+            }
+        }
+    }
 
 
     public void verifAlgoOK(){
