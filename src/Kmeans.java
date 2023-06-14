@@ -270,7 +270,14 @@ public class Kmeans {
             List<List<Mission>> missionEmployeJour = new ArrayList<>();
             for (int j = 0; j < 5; j++) {
                 List<Mission> missionCompatibleEmploye = new ArrayList<>();
-                for (Mission mission : missions) {
+
+                List<Mission> listeMissionaUtiliser = new ArrayList<>();
+                if (this.employesMemeCentreMemeLangue() == false){
+                    listeMissionaUtiliser = listesMissionsCluster.get((employe.getCentreID()-1));
+                }else{
+                    listeMissionaUtiliser = missions;
+                }
+                for (Mission mission : listeMissionaUtiliser) {
                     if (Integer.parseInt(mission.getJour()) == (j + 1) && employe.getCompétence().equals(mission.getCompétence())) {
                         missionCompatibleEmploye.add(mission); // verification competence et jour
                     }
@@ -280,15 +287,15 @@ public class Kmeans {
             listeCompatibilite.add(missionEmployeJour);
         }
 
-//        for (int i = 0; i < listeCompatibilite.size(); i++) {
-//            System.out.println("***************************************************");
-//            System.out.println("Employé " + (i + 1)); //ne correspond pas à l'id de l'employé dans le centre mais a sa position dans la liste
-//            System.out.println("***************************************************");
-//            System.out.println("Jour : " + jour);
-//            for (Mission mission : listeCompatibilite.get(i).get(jour - 1)) {
-//                System.out.println("Mission : " + mission.getId());
-//            }
-//        }
+        for (int i = 0; i < listeCompatibilite.size(); i++) {
+            System.out.println("***************************************************");
+            System.out.println("Employé " + (i + 1)); //ne correspond pas à l'id de l'employé dans le centre mais a sa position dans la liste
+            System.out.println("***************************************************");
+            System.out.println("Jour : " + jour);
+            for (Mission mission : listeCompatibilite.get(i).get(jour - 1)) {
+                System.out.println("Mission : " + mission.getId());
+            }
+        }
 
         return listeCompatibilite;
     }
@@ -333,6 +340,28 @@ public class Kmeans {
             recherche2--;
         }
         return distances[recherche1][recherche2];
+    }
+
+
+    public boolean employesMemeCentreMemeLangue(){
+        boolean memeLangue = false;
+
+        for (int i = 0; i< this.nbclusters ; i++){
+            int totLangueLSF = 0;
+            int totLangueLPC = 0;
+            for (Employé e : employésParCentres.get(i)){
+                if (e.getCompétence().equals("LSF")){
+                    totLangueLSF +=1;
+                }else{
+                    totLangueLPC +=1;
+                }
+            }
+            if (totLangueLSF == 0 || totLangueLPC == 0){
+                memeLangue = true;
+            }
+        }
+
+        return memeLangue;
     }
 
 

@@ -15,6 +15,8 @@ public class AlgoTabou {
 
     double[][] distances;
 
+    private int coutTotalAlgo = 0;
+
     private List<Mission> allMissions;
 
     public AlgoTabou(List<List<Mission>> missions, double[][] distances, List<Employé> employes, List<Centre> centres, int nbClusters, Kmeans kmeansmission, List<Mission> allMission) {
@@ -311,7 +313,6 @@ public class AlgoTabou {
 
 
     public void affichageCheminOptimaux() {
-
             for(Employé employe : employes){
                 //remettre en ordre en fonction des horraires les missions affectées
                 this.remettreOrdreMissions(employe);
@@ -360,6 +361,14 @@ public class AlgoTabou {
 
                 System.out.println("distance totale optimale semaine pour employé n°"+ employe.getId() + " = " + employe.getDistanceTotal());
             }
+            //Affectation des missions aux centres + calcul distance totale et cout
+            affectationMissionCentre();
+            for (Centre centre : centres){
+                this.coutTotalAlgo += centre.getCoutTotalCentre();
+            }
+
+            System.out.println("\nLe coût des distance c =" + this.coutTotalAlgo + "€\n");
+
 
     }
 
@@ -463,6 +472,30 @@ public class AlgoTabou {
 
         employe.setAffectation(newAffectation);
     }
+
+
+    public void affectationMissionCentre(){
+        for (Centre centre : centres){
+            List<Mission> listeTempAffectations = new ArrayList<>();
+            double distTotale = 0.0;
+            double cout = 0.0;
+            for(Employé employe : employes){
+                if(employe.getCentreID() == centre.getId()){
+                    listeTempAffectations.addAll(employe.getAffectation());
+                    distTotale += employe.getDistanceTotal();
+                }
+            }
+            cout = distTotale*0.2;
+            centre.setAffectation(listeTempAffectations);
+            centre.setDistanceTrajets(distTotale);
+            centre.setCoutTotalCentre(cout);
+        }
+
+    }
+
+
+
+
 
 
     public void verifAlgoOK(){

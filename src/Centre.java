@@ -12,6 +12,8 @@ public class Centre {
     private List<Employé> employe;
     private double distanceTrajets;
 
+    private double coutTotalCentre;
+
     public Centre(int id, String nom) {
         this.id = id;
         this.nom = nom;
@@ -57,6 +59,18 @@ public class Centre {
 
     public void addEmploye(Employé value) {
         this.employe.add(value);
+    }
+
+    public void setAffectation(List<Mission> affectation) {
+        this.affectation = affectation;
+    }
+
+    public double getCoutTotalCentre() {
+        return coutTotalCentre;
+    }
+
+    public void setCoutTotalCentre(double coutTotalCentre) {
+        this.coutTotalCentre = coutTotalCentre;
     }
 
     public String toStringCentre() {
