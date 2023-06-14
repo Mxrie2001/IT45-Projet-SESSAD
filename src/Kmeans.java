@@ -97,10 +97,10 @@ public class Kmeans {
 
 
     public void kmeansAlgorithme(){
-        int[][] CentreMission = new int[this.distances.length - 2][this.nbclusters];
+        int[][] CentreMission = new int[this.distances.length - this.nbclusters][this.nbclusters];
 
-        // on commence à la 2 car on ne veut pas distances des centres entre eux
-        for (int i = 2; i < this.distances.length; i++) {
+        // on commence à nbcluster car on ne veut pas distances des centres entre eux
+        for (int i = this.nbclusters; i < this.distances.length; i++) {
             double minimum = this.distances[i][0];
             int minCol = 0;
 
@@ -114,18 +114,19 @@ public class Kmeans {
 
 //            System.out.println("Le minimum de la ligne " + (i + 1) + " est : " + minimum + " dans la colonne " + (minCol + 1));
 
-            CentreMission[i-2][0] = i-1;
-            CentreMission[i-2][1] = minCol+1;
+            //TODO
+            CentreMission[i-this.nbclusters][0] = i-this.nbclusters+1;
+            CentreMission[i-this.nbclusters][1] = minCol+1;
         }
 
 
-        System.out.println("\n************************************************************************");
-        System.out.println("Affichage Tableau Mission -> Centre en fonction de la distance la plus courte");
-        System.out.println("************************************************************************");
-//        System.out.println("Tableau Centre Missions:");
-        for (int i = 0; i < CentreMission.length; i++) {
-            System.out.println(CentreMission[i][0] + "\t" + CentreMission[i][1]);
-        }
+//        System.out.println("\n************************************************************************");
+//        System.out.println("Affichage Tableau Mission -> Centre en fonction de la distance la plus courte");
+//        System.out.println("************************************************************************");
+////        System.out.println("Tableau Centre Missions:");
+//        for (int i = 0; i < CentreMission.length; i++) {
+//            System.out.println(CentreMission[i][0] + "\t" + CentreMission[i][1]);
+//        }
 
 
         for (int i = 0; i < this.nbclusters; i++) {
@@ -135,24 +136,24 @@ public class Kmeans {
 //                    System.out.println("mission: " +CentreMission[j][0] + "\t Centre: " + CentreMission[j][1]);
                     // Ajoutez les objets souhaités à chaque liste
                     listeObjets.add(missions.get(CentreMission[j][0] -1));
-//                    System.out.println(missions.get(CentreMission[j][0] -1).getId());
+                    //System.out.println(missions.get(CentreMission[j][0] -1).getId());
                 }
             }
             listesMissionsCluster.add(listeObjets);
         }
 
-        System.out.println("\n************************************************************************");
-        System.out.println("Affichage des Clusters");
-        System.out.println("************************************************************************");
-
-        for (int i = 0; i < listesMissionsCluster.size(); i++) {
-            List<Mission> listeObjets = listesMissionsCluster.get(i);
-            System.out.println("Cluster " + (i + 1) + ":");
-            for (Mission objet : listeObjets) {
-                System.out.println("Mission n°" + objet.getId());
-            }
-            System.out.println();
-        }
+//        System.out.println("\n************************************************************************");
+//        System.out.println("Affichage des Clusters");
+//        System.out.println("************************************************************************");
+//
+//        for (int i = 0; i < listesMissionsCluster.size(); i++) {
+//            List<Mission> listeObjets = listesMissionsCluster.get(i);
+//            System.out.println("Cluster " + (i + 1) + ":");
+//            for (Mission objet : listeObjets) {
+//                System.out.println("Mission n°" + objet.getId());
+//            }
+//            System.out.println();
+//        }
 
     }
 
@@ -175,18 +176,18 @@ public class Kmeans {
         }
 
         // Affichage des employés par centres
-        System.out.println("\n************************************************************************");
-        System.out.println("Repartition employés par centres");
-        System.out.println("************************************************************************");
-
-        for (int i = 0; i < employésParCentres.size(); i++) {
-            List<Employé> centre = employésParCentres.get(i);
-            System.out.println("Centre " + (i + 1) + ":");
-            for (Employé employe : centre) {
-                System.out.println("Employé n°" + employe.getId() + ", ID Centre : " + employe.getCentreID());
-            }
-            System.out.println();
-        }
+//        System.out.println("\n************************************************************************");
+//        System.out.println("Repartition employés par centres");
+//        System.out.println("************************************************************************");
+//
+//        for (int i = 0; i < employésParCentres.size(); i++) {
+//            List<Employé> centre = employésParCentres.get(i);
+//            System.out.println("Centre " + (i + 1) + ":");
+//            for (Employé employe : centre) {
+//                System.out.println("Employé n°" + employe.getId() + ", ID Centre : " + employe.getCentreID());
+//            }
+//            System.out.println();
+//        }
 
     }
 
@@ -213,17 +214,17 @@ public class Kmeans {
         }
 
 
-        for (int i = 0; i < listeCompatibilite.size(); i++) {
-            System.out.println("***************************************************");
-            System.out.println("Employé " + (i + 1));
-            System.out.println("***************************************************");
-            for (int j = 0; j < 5; j++) {
-                System.out.println("Jour : " + (j + 1));
-                for (Mission mission : listeCompatibilite.get(i).get(j)) {
-                    System.out.println("Mission : " + mission.getId());
-                }
-            }
-        }
+//        for (int i = 0; i < listeCompatibilite.size(); i++) {
+//            System.out.println("***************************************************");
+//            System.out.println("Employé " + (i + 1));
+//            System.out.println("***************************************************");
+//            for (int j = 0; j < 5; j++) {
+//                System.out.println("Jour : " + (j + 1));
+//                for (Mission mission : listeCompatibilite.get(i).get(j)) {
+//                    System.out.println("Mission : " + mission.getId());
+//                }
+//            }
+//        }
 
         return listeCompatibilite;
     }
@@ -287,15 +288,15 @@ public class Kmeans {
             listeCompatibilite.add(missionEmployeJour);
         }
 
-        for (int i = 0; i < listeCompatibilite.size(); i++) {
-            System.out.println("***************************************************");
-            System.out.println("Employé " + (i + 1)); //ne correspond pas à l'id de l'employé dans le centre mais a sa position dans la liste
-            System.out.println("***************************************************");
-            System.out.println("Jour : " + jour);
-            for (Mission mission : listeCompatibilite.get(i).get(jour - 1)) {
-                System.out.println("Mission : " + mission.getId());
-            }
-        }
+//        for (int i = 0; i < listeCompatibilite.size(); i++) {
+//            System.out.println("***************************************************");
+//            System.out.println("Employé " + (i + 1)); //ne correspond pas à l'id de l'employé dans le centre mais a sa position dans la liste
+//            System.out.println("***************************************************");
+//            System.out.println("Jour : " + jour);
+//            for (Mission mission : listeCompatibilite.get(i).get(jour - 1)) {
+//                System.out.println("Mission : " + mission.getId());
+//            }
+//        }
 
         return listeCompatibilite;
     }

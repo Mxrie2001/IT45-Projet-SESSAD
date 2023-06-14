@@ -13,12 +13,12 @@ public class Main {
 
         CSVReader csvReader = new CSVReader();
 
-        List<Mission> missions = csvReader.CreateMissions("./src/instances/30Missions-2centres/Missions.csv");
+        List<Mission> missions = csvReader.CreateMissions("./src/instances/200Missions-2centres/Missions.csv");
 
-        List<Centre> centres = csvReader.CreateCenter("./src/instances/30Missions-2centres/centers.csv");
-        List<Employé> employes = csvReader.CreateEmploye("./src/instances/30Missions-2centres/Employees.csv");
+        List<Centre> centres = csvReader.CreateCenter("./src/instances/200Missions-2centres/centres.csv");
+        List<Employé> employes = csvReader.CreateEmploye("./src/instances/200Missions-2centres/Employees.csv");
 //        employes.get(1).getEmployéEdt().AfficherTab(employes.get(1).getEmployéEdt().getDispo1());
-        double[][] distanceMatrix = csvReader.createDistanceMatrix("./src/instances/30Missions-2centres/distances.csv");
+        double[][] distanceMatrix = csvReader.createDistanceMatrix("./src/instances/200Missions-2centres/distances.csv");
         Kmeans kmeans = new Kmeans(distanceMatrix, employes, centres, missions, centres.size());
         AlgoTabou tabou = new AlgoTabou(kmeans.getListesMissionsCluster(), distanceMatrix, employes, centres, centres.size(), kmeans, missions);
 
@@ -51,25 +51,25 @@ public class Main {
 //        }
 
 
-        System.out.println("\n************************************************************************");
-        System.out.println("Algorithme Kmeans");
-        System.out.println("************************************************************************");
+//        System.out.println("\n************************************************************************");
+//        System.out.println("Algorithme Kmeans");
+//        System.out.println("************************************************************************");
 
         kmeans.kmeansAlgorithme();
         kmeans.repartitionEmployéCentre();
 
 //        kmeans.CompatibiliteMissionEmploye();
 
-        System.out.println("***********************");
+//        System.out.println("***********************");
 //        kmeans.créerCouplesEmployéMission(0,1); // attention index centre commence à 0 ne correspond pas à l'id du centre
 
         for(int centre = 0; centre < centres.size(); centre++){
-            System.out.println("**********************");
-            System.out.println("Centre n°"+(centre+1));
-            System.out.println("**********************");
+//            System.out.println("**********************");
+//            System.out.println("Centre n°"+(centre+1));
+//            System.out.println("**********************");
 
             for (int jour = 1; jour <=5; jour++){
-                System.out.println("****************** Jour "+ jour + " ******************");
+//                System.out.println("****************** Jour "+ jour + " ******************");
                 tabou.comparerEtSupprimerDoublonsMission(centre,jour); //recherche de couple optimaux
             }
         }
@@ -84,7 +84,7 @@ public class Main {
         tabou.affichageCheminOptimaux();
 
 
-        
+
         tabou.verifAlgoOK();
 
         //Autres vérifs

@@ -120,10 +120,10 @@ public class AlgoTabou {
 
         couples.removeAll(couplesASupprimer);
 
-        System.out.println("Couples sans doublon :");
-        for (CoupleEmployéMission couple : couples) {
-            System.out.println("Employé n°" + couple.getEmployé().getId() + " - Mission n°" + couple.getMission().getId());
-        }
+//        System.out.println("Couples sans doublon :");
+//        for (CoupleEmployéMission couple : couples) {
+//            System.out.println("Employé n°" + couple.getEmployé().getId() + " - Mission n°" + couple.getMission().getId());
+//        }
 
         return couples;
     }
