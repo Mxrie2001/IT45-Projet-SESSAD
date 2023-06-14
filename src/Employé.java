@@ -13,6 +13,13 @@ public class Employé {
 
     private int score;
 
+    private double distanceJ1 =0.0;
+    private double distanceJ2 =0.0;
+    private double distanceJ3 =0.0;
+    private double distanceJ4 =0.0;
+    private double distanceJ5 =0.0;
+
+    private double distanceTotal = 0.0;
 
     public Employé(int id, int centreID, String compétence, String spé, EmployéEdt employéEdt, double distanceTrajets) {
         this.id = id;
@@ -109,7 +116,53 @@ public class Employé {
         }
     }
 
+    public double getDistanceJ1() {
+        return distanceJ1;
+    }
 
+    public void setDistanceJ1(double distanceJ1) {
+        this.distanceJ1 = distanceJ1;
+    }
+
+    public double getDistanceJ2() {
+        return distanceJ2;
+    }
+
+    public void setDistanceJ2(double distanceJ2) {
+        this.distanceJ2 = distanceJ2;
+    }
+
+    public double getDistanceJ3() {
+        return distanceJ3;
+    }
+
+    public void setDistanceJ3(double distanceJ3) {
+        this.distanceJ3 = distanceJ3;
+    }
+
+    public double getDistanceJ4() {
+        return distanceJ4;
+    }
+
+    public void setDistanceJ4(double distanceJ4) {
+        this.distanceJ4 = distanceJ4;
+    }
+
+    public double getDistanceJ5() {
+        return distanceJ5;
+    }
+
+    public void setDistanceJ5(double distanceJ5) {
+        this.distanceJ5 = distanceJ5;
+    }
+
+    public double getDistanceTotal() {
+        return distanceTotal;
+    }
+
+    public void calculateDistanceTotal() {
+        this.distanceTotal = this.distanceJ1 + this.distanceJ2 + this.distanceJ3 + this.distanceJ4 + this.distanceJ5;
+    }
 
     public String toStringEmploye() {
         return "Employe{" +

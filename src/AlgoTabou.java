@@ -13,12 +13,11 @@ public class AlgoTabou {
 
     private Kmeans kmeansmission;
 
-    private int trajettotCentre1 = 0;
-    private int trajettotCentre2 = 0;
-    private int trajettotCentre3 = 0;
     double[][] distances;
 
-    public AlgoTabou(List<List<Mission>> missions, double[][] distances, List<Employé> employes, List<Centre> centres, int nbClusters, Kmeans kmeansmission) {
+    private List<Mission> allMissions;
+
+    public AlgoTabou(List<List<Mission>> missions, double[][] distances, List<Employé> employes, List<Centre> centres, int nbClusters, Kmeans kmeansmission, List<Mission> allMission) {
         this.missions = missions;
         this.employes = employes;
         this.distances=distances;
@@ -26,6 +25,7 @@ public class AlgoTabou {
         this.nbClusters = nbClusters;
         this.kmeansmission = kmeansmission;
         this.employésParCentres = new ArrayList<>();
+        this.allMissions = allMission;
     }
 
     public String toStringAlgoTabou() {
@@ -313,8 +313,12 @@ public class AlgoTabou {
     public void affichageCheminOptimaux() {
 
             for(Employé employe : employes){
+                //remettre en ordre en fonction des horraires les missions affectées
+                this.remettreOrdreMissions(employe);
+
                 System.out.println("\nEmployé " + employe.getId() + " assigné au centre n°" + employe.getCentreID());
                 List<Mission> affectation = employe.getAffectation();
+
                 for(int jour = 1; jour<=5; jour++) {
                     double distanceOpti = 0.0;
                     System.out.println("Jour "+ jour);
@@ -348,7 +352,13 @@ public class AlgoTabou {
                         System.out.print("-" + mission.getId() + "-" );
                     }
                     System.out.println(" => distance opti = " + distanceOpti);
+                    //maj distance dans employe
+                    this.majDistancePouremploye(employe, jour, distanceOpti);
                 }
+                // calculer le total de distance sur la semaine pour l'employé
+                employe.calculateDistanceTotal();
+
+                System.out.println("distance totale optimale semaine pour employé n°"+ employe.getId() + " = " + employe.getDistanceTotal());
             }
 
     }
@@ -367,6 +377,114 @@ public class AlgoTabou {
         Mission elementPrecedent = liste.get(indexCourant - 1);
 
         return elementPrecedent;
+    }
+
+    public void majDistancePouremploye(Employé e, int jour, double distOpti){
+        switch (jour) {
+            case 1:
+                e.setDistanceJ1(distOpti);
+                break;
+            case 2:
+                e.setDistanceJ2(distOpti);
+                break;
+            case 3:
+                e.setDistanceJ3(distOpti);
+                break;
+            case 4:
+                e.setDistanceJ4(distOpti);
+                break;
+            case 5:
+                e.setDistanceJ5(distOpti);
+                break;
+            default:
+                System.out.println("error jour semaine n'existe pas");
+                break;
+        }
+    }
+
+
+    public List<Mission> triMissionAffecteParJour(List<Mission> missions) {
+        Collections.sort(missions, Comparator.comparingInt(mission -> Integer.parseInt(mission.getHeure_debut())));
+        return missions;
+    }
+
+    public void remettreOrdreMissions(Employé employe){
+        List<Mission> newAffectation = new ArrayList<>();
+
+        List<Mission> newAffectationJ1 = new ArrayList<>();
+        List<Mission> newAffectationJ2 = new ArrayList<>();
+        List<Mission> newAffectationJ3 = new ArrayList<>();
+        List<Mission> newAffectationJ4 = new ArrayList<>();
+        List<Mission> newAffectationJ5 = new ArrayList<>();
+
+        List<Mission> affectation = employe.getAffectation();
+        for(int jour = 1; jour<=5; jour++) {
+            List<Mission> missionsTemporaires = new ArrayList<>();
+
+            for (Mission mission : affectation) {
+                if (Integer.parseInt(mission.getJour()) == jour) {
+                    missionsTemporaires.add(mission);
+                }
+            }
+            switch (jour) {
+                case 1:
+                    newAffectationJ1 =missionsTemporaires;
+                break;
+                case 2:
+                    newAffectationJ2 = missionsTemporaires;
+                    break;
+                case 3:
+                    newAffectationJ3 = missionsTemporaires;
+                    break;
+                case 4:
+                    newAffectationJ4 = missionsTemporaires;
+                    break;
+                case 5:
+                    newAffectationJ5 = missionsTemporaires;
+                    break;
+                default:
+                    System.out.println("error jour semaine n'existe pas");
+                    break;
+            }
+
+        }
+        //trier toute les affectation par jour en fonction de leur heure de debut
+        List<Mission> tri1 = triMissionAffecteParJour(newAffectationJ1);
+        List<Mission> tri2 = triMissionAffecteParJour(newAffectationJ2);
+        List<Mission> tri3 =triMissionAffecteParJour(newAffectationJ3);
+        List<Mission> tri4 = triMissionAffecteParJour(newAffectationJ4);
+        List<Mission> tri5 = triMissionAffecteParJour(newAffectationJ5);
+
+        newAffectation.addAll(tri1);
+        newAffectation.addAll(tri2);
+        newAffectation.addAll(tri3);
+        newAffectation.addAll(tri4);
+        newAffectation.addAll(tri5);
+
+        employe.setAffectation(newAffectation);
+    }
+
+
+    public void verifAlgoOK(){
+        int verifokCompetences = 0;
+        int verifokSpe = 0;
+        int totalAVerif = allMissions.size();
+        for (Employé employe : employes){
+            for (Mission mission : employe.getAffectation()){
+                if(mission.getCompétence().equals(employe.getCompétence())){
+                    verifokCompetences +=1;
+                }
+                if(mission.getSpé().equals(employe.getSpé())){
+                    verifokSpe +=1;
+                }
+            }
+        }
+
+        System.out.println("*********************************");
+        System.out.println("Vérifications résultats");
+        System.out.println("*********************************");
+        System.out.println("Association (Employé,Mission) avec même compétence : " + verifokCompetences + "/" + totalAVerif);
+        System.out.println("Association (Employé,Mission) avec même spé : " + verifokSpe + "/" + totalAVerif);
     }
 
 

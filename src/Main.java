@@ -5,6 +5,12 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) {
+
+        //Pour avoir le temps d'execution --> début du chnono
+        long tempsDebut = System.currentTimeMillis();
+
+
+
         CSVReader csvReader = new CSVReader();
 
         List<Mission> missions = csvReader.CreateMissions("./src/instances/66Missions-2centres/Missions.csv");
@@ -14,7 +20,7 @@ public class Main {
 //        employes.get(1).getEmployéEdt().AfficherTab(employes.get(1).getEmployéEdt().getDispo1());
         double[][] distanceMatrix = csvReader.createDistanceMatrix("./src/instances/66Missions-2centres/distances.csv");
         Kmeans kmeans = new Kmeans(distanceMatrix, employes, centres, missions, centres.size());
-        AlgoTabou tabou = new AlgoTabou(kmeans.getListesMissionsCluster(), distanceMatrix, employes, centres, centres.size(), kmeans);
+        AlgoTabou tabou = new AlgoTabou(kmeans.getListesMissionsCluster(), distanceMatrix, employes, centres, centres.size(), kmeans, missions);
 
 //        System.out.println("\n************************************************************************");
 //        System.out.println("Affichage des objets");
@@ -80,6 +86,15 @@ public class Main {
         //ajouter distance par centre --> récuperer les distances par jour/employé
         //manque la gestion du temps de trajet dans tabou
         // ajouter la verif pour les doublons en fonction des competences des employés des centres(voir feuile)
+
+        tabou.verifAlgoOK();
+
+
+        //Pour avoir le temps d'execution --> fin du chono et affichage
+        long tempsFin = System.currentTimeMillis();
+        long tempsExecution = tempsFin - tempsDebut;
+
+        System.out.println("\n \nTemps d'exécution : " + tempsExecution + " millisecondes");
 
 
     }
