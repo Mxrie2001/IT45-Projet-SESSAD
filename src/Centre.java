@@ -4,15 +4,15 @@ import java.util.List;
 
 public class Centre {
 
-    private int id;
-    private String nom;
-    private int capacite;
-    private List<Mission> affectation;
+    private int id;                     // Identifiant du centre
+    private String nom;                 // Nom du centre
+    private int capacite;               // Capacité du centre
+    private List<Mission> affectation;  // Liste des missions affectées au centre
 
-    private List<Employé> employe;
-    private double distanceTrajets;
+    private List<Employé> employe;      // Liste des employés travaillant dans ce centre
+    private double distanceTrajets;     // Distance totale des trajets effectués par les employés du centre
 
-    private double coutTotalCentre;
+    private double coutTotalCentre;     // Coût total associé au centre
 
     public Centre(int id, String nom) {
         this.id = id;
@@ -73,6 +73,7 @@ public class Centre {
         this.coutTotalCentre = coutTotalCentre;
     }
 
+    // Retourne une chaine de caractères qui permet d'afficher les informations des centres
     public String toStringCentre() {
         return "Centre{" +
                 "id=" + id +

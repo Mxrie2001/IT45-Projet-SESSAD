@@ -5,27 +5,26 @@ import static java.lang.Integer.parseInt;
 public class Kmeans {
 
 
-    private double[][] distances; // Matrice de distance précalculée
-    private int[] clusters; // Tableau de listes pour stocker les points dans chaque cluster
+    private double[][] distances;           // Matrice de distance pré-calculée
+    private int[] clusters;                 // Tableau de listes pour stocker les points dans chaque cluster
 
-    private int nbclusters; // Nombre de clusters
+    private int nbclusters;                 // Nombre de clusters -> centres
 
-    private List<Centre> centres; // Liste de centres
+    private List<Centre> centres;           // Liste de tous centres
 
-    private List<Mission> missions; // Liste de missions
+    private List<Mission> missions;         // Liste de toutes missions
 
-    private List<List<Mission>> listesMissionsCluster;
+    private List<List<Mission>> listesMissionsCluster;  // Liste de missions par centre
 
-    private List<List<Employé>> employésParCentres;
+    private List<List<Employé>> employésParCentres;     // Liste d'employés par cnetre
 
-    private List<Employé> employes;
+    private List<Employé> employes;         // Liste de tous les employés
 
     private List<List<Object>> employesMissionsCommunes = new ArrayList<>();
 
 
-
-
-    public Kmeans(double[][] distances, List<Employé> employes, List<Centre> centres, List<Mission> missions, int nbclusters) {
+    public Kmeans(double[][] distances, List<Employé> employes, List<Centre> centres, List<Mission> missions, int nbclusters)
+    {
         this.distances = distances;
         this.centres = centres;
         this.nbclusters = nbclusters;
@@ -39,9 +38,7 @@ public class Kmeans {
         return listesMissionsCluster;
     }
 
-    public void setListesMissionsCluster(List<List<Mission>> listesMissionsCluster) {
-        this.listesMissionsCluster = listesMissionsCluster;
-    }
+    public void setListesMissionsCluster(List<List<Mission>> listesMissionsCluster) { this.listesMissionsCluster = listesMissionsCluster; }
 
     public double[][] getDistances() {
         return distances;
@@ -75,7 +72,9 @@ public class Kmeans {
         this.missions = missions;
     }
 
-    public String toStringKmeans() {
+    //retourne une chaine de caractères pour afficher les informations du kmeans
+    public String toStringKmeans()
+    {
         printMatrix(this.distances);
         return "Kmeans{" +
                 "nbcluster=" + this.nbclusters +
@@ -83,19 +82,23 @@ public class Kmeans {
                 '}';
     }
 
-    public void printMatrix(double[][] distanceMatrix){
+    // Fonction qui affiche la matrice des distances
+    public void printMatrix(double[][] distanceMatrix)
+    {
         int numRows = distanceMatrix.length;
         int numCols = distanceMatrix[0].length;
 
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
+        for (int i = 0; i < numRows; i++)
+        {
+            for (int j = 0; j < numCols; j++)
+            {
                 System.out.print(distanceMatrix[i][j] + " ");
             }
             System.out.println();
         }
     }
 
-
+    // Fonction principale du K-means -> créer des clusters en affectant les missions aux centres les plus proches
     public void kmeansAlgorithme(){
         int[][] CentreMission = new int[this.distances.length - this.nbclusters][this.nbclusters];
 
@@ -111,7 +114,6 @@ public class Kmeans {
                     minCol = j;
                 }
             }
-
 //            System.out.println("Le minimum de la ligne " + (i + 1) + " est : " + minimum + " dans la colonne " + (minCol + 1));
 
             //TODO
@@ -157,7 +159,7 @@ public class Kmeans {
 
     }
 
-
+    // Fonction qui répartie les employés selon leurs centres
     public void repartitionEmployéCentre() {
         for (Employé employe : employes) {
             boolean isNewCentre = true;
@@ -301,9 +303,9 @@ public class Kmeans {
         return listeCompatibilite;
     }
 
+    //Liste qui créer les couples employé/mission
     public List<CoupleEmployéMission> créerCouplesEmployéMission(int centreIndex, int jour) {
         List<CoupleEmployéMission> couples = new ArrayList<>();
-
         List<List<List<Mission>>> listeCompatibilite = getMissionsCompatiblesParJourEtCentre(centreIndex, jour);
         List<Employé> centre = employésParCentres.get(centreIndex);
         for (int i = 0; i < centre.size(); i++) {
@@ -312,7 +314,6 @@ public class Kmeans {
                 couples.add(new CoupleEmployéMission(centre.get(i), mission));
             }
         }
-
 //        for (CoupleEmployéMission couple : couples) {
 //            System.out.println("***************************************************");
 //            System.out.println("Employé : " + couple.getEmployé().getId());
@@ -320,11 +321,13 @@ public class Kmeans {
 //            System.out.println("***************************************************");
 //        }
 
-
         return couples;
     }
 
 
+    // Trouver la distance entre deux objets dans la matrice des distances
+    // Le type est là pour verifier si c'est un centre ou une mission
+    // Une mission et un centre ont des index différents de ceux présents dans la matrice des distances
     public double findDistance(String type1, String type2, int id1, int id2) {
         int recherche1 = id1;
         int recherche2 = id2;
@@ -343,7 +346,7 @@ public class Kmeans {
         return distances[recherche1][recherche2];
     }
 
-
+    // Vérifie si l'employé connait le langage de la mission
     public boolean employesMemeCentreMemeLangue(){
         boolean memeLangue = false;
 
@@ -361,12 +364,7 @@ public class Kmeans {
                 memeLangue = true;
             }
         }
-
         return memeLangue;
     }
-
-
-
-
 
 }

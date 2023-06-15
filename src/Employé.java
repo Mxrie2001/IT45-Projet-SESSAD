@@ -3,23 +3,23 @@ import java.util.List;
 
 public class Employé {
 
-    private int id;
-    private int centreID;
-    private String compétence;
-    private String spé;
-    private EmployéEdt employéEdt;
-    private List<Mission> affectation;
-    private double distanceTrajets;
+    private int id;                     // Identifiant de l'employé
+    private int centreID;               // Identifiant du centre associé à l'employé
+    private String compétence;          // Compétence de l'employé
+    private String spé;                 // Spécialisation de l'employé
+    private EmployéEdt employéEdt;      // Objet EmployéEdt associé à l'employé
+    private List<Mission> affectation;  // Liste des missions affectées à l'employé
+    private double distanceTrajets;     // Distance totale des trajets effectués par l'employé
 
-    private int score;
+    private int score;                  // Score associé à l'employé selon les critères satisfaits
 
-    private double distanceJ1 =0.0;
-    private double distanceJ2 =0.0;
-    private double distanceJ3 =0.0;
-    private double distanceJ4 =0.0;
-    private double distanceJ5 =0.0;
+    private double distanceJ1 = 0.0;    // Distance parcourue par l'employé le jour 1
+    private double distanceJ2 = 0.0;    // Distance parcourue par l'employé le jour 2
+    private double distanceJ3 = 0.0;    // Distance parcourue par l'employé le jour 3
+    private double distanceJ4 = 0.0;    // Distance parcourue par l'employé le jour 4
+    private double distanceJ5 = 0.0;    // Distance parcourue par l'employé le jour 5
 
-    private double distanceTotal = 0.0;
+    private double distanceTotal = 0.0; // Distance totale parcourue par l'employé
 
     public Employé(int id, int centreID, String compétence, String spé, EmployéEdt employéEdt, double distanceTrajets) {
         this.id = id;
@@ -160,10 +160,12 @@ public class Employé {
         return distanceTotal;
     }
 
+    // Calcule la distance totale parcourue en une semaine
     public void calculateDistanceTotal() {
         this.distanceTotal = this.distanceJ1 + this.distanceJ2 + this.distanceJ3 + this.distanceJ4 + this.distanceJ5;
     }
 
+    // Retourne une chaine de caractère qui permet d'afficher les informations des employés
     public String toStringEmploye() {
         return "Employe{" +
                 "id=" + id +

@@ -6,12 +6,13 @@ import java.util.List;
 
 public class CSVReader {
 
-
     int[] instanceCentre = new int[3];
 
     public CSVReader() {
     }
 
+
+    // Fonction qui créer les objets missions avec les informations du fichier CSV des missions
     public List<Mission> CreateMissions(String csvFilePath) {
         List<Mission> missions = new ArrayList<>();
         int i = 1;
@@ -36,11 +37,12 @@ public class CSVReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return missions;
     }
 
 
+
+    // Fonction qui créer les objets centres avec les informations du fichier CSV des centres
     public List<Centre> CreateCenter(String csvFilePath) {
         List<Centre> centres = new ArrayList<>();
         int i = 1;
@@ -64,6 +66,8 @@ public class CSVReader {
         return centres;
     }
 
+
+    // Fonction qui créer les objets employés avec les informations du fichier CSV des employés
     public List<Employé> CreateEmploye(String csvFilePath)
     {
         List<Employé> employes = new ArrayList<>();
@@ -105,6 +109,7 @@ public class CSVReader {
     }
 
 
+    // Fonction qui créer la matrice des distances avec celle donnée dans le fichier CSV distances
     public double[][] createDistanceMatrix(String csvFilePath) {
         double[][] distanceMatrix = null;
 

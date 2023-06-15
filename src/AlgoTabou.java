@@ -550,7 +550,6 @@ public class AlgoTabou {
     }
 
     public List<Mission> AllMissionaffectedDoublons(){
-
         List<Mission> missionDoubles = new ArrayList<>();
         List<Mission> allMissionAffected = new ArrayList<>();
 
@@ -567,7 +566,6 @@ public class AlgoTabou {
                 }
             }
         }
-
         return missionDoubles;
     }
 

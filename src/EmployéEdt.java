@@ -1,4 +1,6 @@
 public class EmployéEdt {
+
+    //Différents tableaux pou chaque jour de la semaine
     private boolean[] dispo1;
     private boolean[] dispo2;
     private boolean[] dispo3;
@@ -53,6 +55,7 @@ public class EmployéEdt {
         this.dispo5 = dispo5;
     }
 
+    // Fonction pour afficher les différents tableaux pour voir les disponibilités des employés
     public void AfficherTab(boolean[] dispo){
         for (boolean element : dispo) {
             System.out.print(element + " ");
@@ -67,7 +70,7 @@ public class EmployéEdt {
         }
     }
 
-
+    // Retourne une chaine de caractère qui affiche tous les différents tableaux qui nous permettent de voir les disponibilités des employés
     public String toStringEmployeEDT() {
         return "EmployeEdt{" +
                 "dispo1=" + dispo1 +

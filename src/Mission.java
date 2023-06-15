@@ -1,11 +1,12 @@
 public class Mission {
-    private int id;
-    private String jour;
-    private String heure_debut;
-    private String heure_fin;
-    private String compétence;
-    private String spé;
-    private boolean isAffected;
+
+    private int id;                // Identifiant unique de la mission
+    private String jour;           // Jour de la mission
+    private String heure_debut;    // Heure de début de la mission
+    private String heure_fin;      // Heure de fin de la mission
+    private String compétence;     // Compétence requise pour la mission (langage)
+    private String spé;            // Spécialisation pour la mission
+    private boolean isAffected;    // boolean indiquant si la mission est affectée à un employé
 
     public Mission(int id, String jour, String heure_debut, String heure_fin, String compétence, String spé) {
         this.id = id;
@@ -70,6 +71,7 @@ public class Mission {
         this.spé = spé;
     }
 
+    //retourne une chaine de caractère pour afficher les missions
     public String toStringMissions() {
         return "Mission{" +
                 "id=" + id +
@@ -81,6 +83,7 @@ public class Mission {
                 '}';
     }
 
+    // fonction qui vérifie si deux missions ont lieu le même jour
     public boolean VerifJour(Mission mission1, Mission mission2){
         if(mission1.getJour().equals(mission2.getJour())){
             return true;
