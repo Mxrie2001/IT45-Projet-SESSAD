@@ -22,7 +22,7 @@ public class Kmeans {
 
     private List<List<Object>> employesMissionsCommunes = new ArrayList<>();
 
-
+    //Constructeur
     public Kmeans(double[][] distances, List<Employé> employes, List<Centre> centres, List<Mission> missions, int nbclusters)
     {
         this.distances = distances;
@@ -114,48 +114,22 @@ public class Kmeans {
                     minCol = j;
                 }
             }
-//            System.out.println("Le minimum de la ligne " + (i + 1) + " est : " + minimum + " dans la colonne " + (minCol + 1));
 
-            //TODO
             CentreMission[i-this.nbclusters][0] = i-this.nbclusters+1;
             CentreMission[i-this.nbclusters][1] = minCol+1;
         }
-
-
-//        System.out.println("\n************************************************************************");
-//        System.out.println("Affichage Tableau Mission -> Centre en fonction de la distance la plus courte");
-//        System.out.println("************************************************************************");
-////        System.out.println("Tableau Centre Missions:");
-//        for (int i = 0; i < CentreMission.length; i++) {
-//            System.out.println(CentreMission[i][0] + "\t" + CentreMission[i][1]);
-//        }
 
 
         for (int i = 0; i < this.nbclusters; i++) {
             List<Mission> listeObjets = new ArrayList<>();
             for (int j = 0; j < CentreMission.length; j++) {
                 if (CentreMission[j][1] == i+1) {
-//                    System.out.println("mission: " +CentreMission[j][0] + "\t Centre: " + CentreMission[j][1]);
                     // Ajoutez les objets souhaités à chaque liste
                     listeObjets.add(missions.get(CentreMission[j][0] -1));
-                    //System.out.println(missions.get(CentreMission[j][0] -1).getId());
                 }
             }
             listesMissionsCluster.add(listeObjets);
         }
-
-//        System.out.println("\n************************************************************************");
-//        System.out.println("Affichage des Clusters");
-//        System.out.println("************************************************************************");
-//
-//        for (int i = 0; i < listesMissionsCluster.size(); i++) {
-//            List<Mission> listeObjets = listesMissionsCluster.get(i);
-//            System.out.println("Cluster " + (i + 1) + ":");
-//            for (Mission objet : listeObjets) {
-//                System.out.println("Mission n°" + objet.getId());
-//            }
-//            System.out.println();
-//        }
 
     }
 
@@ -177,94 +151,10 @@ public class Kmeans {
             }
         }
 
-        // Affichage des employés par centres
-//        System.out.println("\n************************************************************************");
-//        System.out.println("Repartition employés par centres");
-//        System.out.println("************************************************************************");
-//
-//        for (int i = 0; i < employésParCentres.size(); i++) {
-//            List<Employé> centre = employésParCentres.get(i);
-//            System.out.println("Centre " + (i + 1) + ":");
-//            for (Employé employe : centre) {
-//                System.out.println("Employé n°" + employe.getId() + ", ID Centre : " + employe.getCentreID());
-//            }
-//            System.out.println();
-//        }
-
-    }
-
-    public List<List<List<Mission>>> CompatibiliteMissionEmploye() {
-        List<List<List<Mission>>> listeCompatibilite = new ArrayList<>();
-
-        for (int i = 0; i < employésParCentres.size(); i++) {
-            List<Employé> centre = employésParCentres.get(i);
-            for (Employé employe : centre) {
-                List<List<Mission>> missionEmployeJour = new ArrayList<>();
-                for (int j = 0; j < 5; j++) {
-                    List<Mission> missionCompatibleEmploye = new ArrayList<>();
-                    for (Mission mission : listesMissionsCluster.get(i)) {
-                        if (Integer.parseInt(mission.getJour()) == (j + 1)) {
-                            if (employe.getCompétence().equals(mission.getCompétence())) {
-                                missionCompatibleEmploye.add(mission);
-                            }
-                        }
-                    }
-                    missionEmployeJour.add(missionCompatibleEmploye);
-                }
-                listeCompatibilite.add(missionEmployeJour);
-            }
-        }
-
-
-//        for (int i = 0; i < listeCompatibilite.size(); i++) {
-//            System.out.println("***************************************************");
-//            System.out.println("Employé " + (i + 1));
-//            System.out.println("***************************************************");
-//            for (int j = 0; j < 5; j++) {
-//                System.out.println("Jour : " + (j + 1));
-//                for (Mission mission : listeCompatibilite.get(i).get(j)) {
-//                    System.out.println("Mission : " + mission.getId());
-//                }
-//            }
-//        }
-
-        return listeCompatibilite;
     }
 
 
-// avec cluster mais ne marche pas pour 66mission
-//    public List<List<List<Mission>>> getMissionsCompatiblesParJourEtCentre(int centreIndex, int jour) {
-//        List<List<List<Mission>>> listeCompatibilite = new ArrayList<>();
-//
-//        List<Employé> centre = employésParCentres.get(centreIndex);
-//        for (Employé employe : centre) {
-//            List<List<Mission>> missionEmployeJour = new ArrayList<>();
-//            for (int j = 0; j < 5; j++) {
-//                List<Mission> missionCompatibleEmploye = new ArrayList<>();
-//                for (Mission mission : listesMissionsCluster.get(centreIndex)) {
-//                    if (Integer.parseInt(mission.getJour()) == (j + 1) && employe.getCompétence().equals(mission.getCompétence())) {
-//                        missionCompatibleEmploye.add(mission);
-//                    }
-//                }
-//                missionEmployeJour.add(missionCompatibleEmploye);
-//            }
-//            listeCompatibilite.add(missionEmployeJour);
-//        }
-//
-//        for (int i = 0; i < listeCompatibilite.size(); i++) {
-//            System.out.println("***************************************************");
-//            System.out.println("Employé " + (i + 1));
-//            System.out.println("***************************************************");
-//            System.out.println("Jour : " + jour);
-//            for (Mission mission : listeCompatibilite.get(i).get(jour - 1)) {
-//                System.out.println("Mission : " + mission.getId());
-//            }
-//        }
-//
-//        return listeCompatibilite;
-//    }
-
-
+//    Fonction retournant les missions compatible à chaques employé par jour et par centres
     public List<List<List<Mission>>> getMissionsCompatiblesParJourEtCentre(int centreIndex, int jour) {
         List<List<List<Mission>>> listeCompatibilite = new ArrayList<>();
 
@@ -290,20 +180,10 @@ public class Kmeans {
             listeCompatibilite.add(missionEmployeJour);
         }
 
-//        for (int i = 0; i < listeCompatibilite.size(); i++) {
-//            System.out.println("***************************************************");
-//            System.out.println("Employé " + (i + 1)); //ne correspond pas à l'id de l'employé dans le centre mais a sa position dans la liste
-//            System.out.println("***************************************************");
-//            System.out.println("Jour : " + jour);
-//            for (Mission mission : listeCompatibilite.get(i).get(jour - 1)) {
-//                System.out.println("Mission : " + mission.getId());
-//            }
-//        }
-
         return listeCompatibilite;
     }
 
-    //Liste qui créer les couples employé/mission
+    //Fonction qui créer les couples employé/mission
     public List<CoupleEmployéMission> créerCouplesEmployéMission(int centreIndex, int jour) {
         List<CoupleEmployéMission> couples = new ArrayList<>();
         List<List<List<Mission>>> listeCompatibilite = getMissionsCompatiblesParJourEtCentre(centreIndex, jour);
@@ -314,18 +194,12 @@ public class Kmeans {
                 couples.add(new CoupleEmployéMission(centre.get(i), mission));
             }
         }
-//        for (CoupleEmployéMission couple : couples) {
-//            System.out.println("***************************************************");
-//            System.out.println("Employé : " + couple.getEmployé().getId());
-//            System.out.println("Mission : " + couple.getMission().getId());
-//            System.out.println("***************************************************");
-//        }
 
         return couples;
     }
 
 
-    // Trouver la distance entre deux objets dans la matrice des distances
+    // Fonction pour trouver la distance entre deux objets dans la matrice des distances
     // Le type est là pour verifier si c'est un centre ou une mission
     // Une mission et un centre ont des index différents de ceux présents dans la matrice des distances
     public double findDistance(String type1, String type2, int id1, int id2) {
@@ -346,7 +220,7 @@ public class Kmeans {
         return distances[recherche1][recherche2];
     }
 
-    // Vérifie si l'employé connait le langage de la mission
+    // Vérifie si les employés d'un meme centre ont la meme compétence, pour tout les centres
     public boolean employesMemeCentreMemeLangue(){
         boolean memeLangue = false;
 

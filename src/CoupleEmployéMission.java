@@ -1,13 +1,15 @@
 public class CoupleEmployéMission {
 
-    private Employé employé;        // Employé auquel la mission est affectée
-    private Mission mission;        //Mission à laquelle l'employé est affecté
+    private Employé employé;        // Employé compatible avec mission
+    private Mission mission;        //Mission compatible avec employé
 
+    //Constructeur
     public CoupleEmployéMission(Employé employé, Mission mission) {
         this.employé = employé;
         this.mission = mission;
     }
 
+    //Setters et getters
     public Employé getEmployé() {
         return employé;
     }

@@ -21,6 +21,7 @@ public class Employé {
 
     private double distanceTotal = 0.0; // Distance totale parcourue par l'employé
 
+    //Constructeur
     public Employé(int id, int centreID, String compétence, String spé, EmployéEdt employéEdt, double distanceTrajets) {
         this.id = id;
         this.centreID = centreID;
@@ -32,6 +33,7 @@ public class Employé {
         this.score = 0;
     }
 
+    //Setters et getters
     public int getId() {
         return id;
     }

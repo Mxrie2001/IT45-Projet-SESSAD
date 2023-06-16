@@ -14,12 +14,14 @@ public class Centre {
 
     private double coutTotalCentre;     // Coût total associé au centre
 
+    //Constructeur
     public Centre(int id, String nom) {
         this.id = id;
         this.nom = nom;
         this.affectation = new ArrayList<>();
     }
 
+    //Setters et getters
     public int getId() {
         return id;
     }

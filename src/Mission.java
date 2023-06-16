@@ -8,6 +8,7 @@ public class Mission {
     private String spé;            // Spécialisation pour la mission
     private boolean isAffected;    // boolean indiquant si la mission est affectée à un employé
 
+    //Constructeur
     public Mission(int id, String jour, String heure_debut, String heure_fin, String compétence, String spé) {
         this.id = id;
         this.jour = jour;
@@ -19,6 +20,7 @@ public class Mission {
 
     }
 
+    //Setters et getters
     public void setAffected(boolean affected) {
         isAffected = affected;
     }

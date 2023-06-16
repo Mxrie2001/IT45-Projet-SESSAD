@@ -3,22 +3,23 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class AlgoTabou {
-    private List<List<Mission>> missions;
+    private List<List<Mission>> missions; //Liste des liste de missions réparties par cluster
 
-    private List<List<Employé>> employésParCentres;
-    private List<Employé> employes;
-    private List<Centre> centres;
+    private List<List<Employé>> employésParCentres; // Liste des listes d'employés répartis par clusters
+    private List<Employé> employes; //Liste de tous les employés
+    private List<Centre> centres; // Liste des centres
 
-    private int nbClusters;
+    private int nbClusters; // Nombre de cluster
 
-    private Kmeans kmeansmission;
+    private Kmeans kmeansmission; //Instance de kmeans pour avoir acces aux fonctions
 
-    double[][] distances;
+    double[][] distances; // Matrice des distance
 
-    private int coutTotalAlgo = 0;
+    private int coutTotalAlgo = 0; // Cout total
 
-    private List<Mission> allMissions;
+    private List<Mission> allMissions; // Liste de toute les missions
 
+    //Constructeur
     public AlgoTabou(List<List<Mission>> missions, double[][] distances, List<Employé> employes, List<Centre> centres, int nbClusters, Kmeans kmeansmission, List<Mission> allMission) {
         this.missions = missions;
         this.employes = employes;
@@ -41,6 +42,8 @@ public class AlgoTabou {
 
 
 
+    // Fonction principale de Tabou, a partir des couples compatible créé je selectionne les meilleurs et les affecte
+    //Comparaison 1 à 1 avec son voisin
     public List<CoupleEmployéMission> comparerEtSupprimerDoublonsMission(int centreIndex, int jour) {
         List<CoupleEmployéMission> couplesASupprimer = new ArrayList<>();
         List<CoupleEmployéMission> couples = kmeansmission.créerCouplesEmployéMission(centreIndex,jour); // attention index centre commence à 0 ne correspond pas à l'id du centre
@@ -91,6 +94,7 @@ public class AlgoTabou {
                             this.affecterMission(coupleSuivant.getEmployé(), coupleSuivant.getMission());
                             this.majEDTEmploye(coupleSuivant.getEmployé(), jour, Integer.parseInt(coupleSuivant.getMission().getHeure_debut()), Integer.parseInt(coupleSuivant.getMission().getHeure_fin()), true);
                         }
+                        // supprimer l'affectation au moins bon si elle lui était affectée
                         if(this.checkMissionInAffectation(coupleCourant.getEmployé(), coupleCourant.getMission()) == true){
                             this.removemissionAffectee(coupleCourant.getEmployé(), coupleCourant.getMission());
                             this.majEDTEmploye(coupleCourant.getEmployé(), jour, Integer.parseInt(coupleCourant.getMission().getHeure_debut()), Integer.parseInt(coupleCourant.getMission().getHeure_fin()), false);
@@ -105,6 +109,7 @@ public class AlgoTabou {
                             this.affecterMission(coupleCourant.getEmployé(), coupleCourant.getMission());
                             this.majEDTEmploye(coupleCourant.getEmployé(), jour, Integer.parseInt(coupleCourant.getMission().getHeure_debut()), Integer.parseInt(coupleCourant.getMission().getHeure_fin()), true);
                         }
+                        // supprimer l'affectation au moins bon si elle lui était affectée
                         if(this.checkMissionInAffectation(coupleSuivant.getEmployé(), coupleSuivant.getMission()) == true){
                             this.removemissionAffectee(coupleSuivant.getEmployé(), coupleSuivant.getMission());
                             this.majEDTEmploye(coupleSuivant.getEmployé(), jour, Integer.parseInt(coupleSuivant.getMission().getHeure_debut()), Integer.parseInt(coupleSuivant.getMission().getHeure_fin()), false);
@@ -120,15 +125,12 @@ public class AlgoTabou {
 
         couples.removeAll(couplesASupprimer);
 
-//        System.out.println("Couples sans doublon :");
-//        for (CoupleEmployéMission couple : couples) {
-//            System.out.println("Employé n°" + couple.getEmployé().getId() + " - Mission n°" + couple.getMission().getId());
-//        }
-
         return couples;
     }
 
 
+    //Fonction de calcul du score/fitnass des employés par rapport à une mission
+    //Pris en compte de tout les contrainte sauf le temps de trajet entre les missions
     public void majScoreEmploye(Employé employé, Mission mission){
 
         int total =0;
@@ -181,7 +183,6 @@ public class AlgoTabou {
             }
 
         }
-//      System.out.println("Employé dispo? " + edtOk);
 
         // Voir si employé n'a pas trop travaillé adj si on rajoute cette mission
         for (boolean value : dispoEmp) {
@@ -197,9 +198,7 @@ public class AlgoTabou {
         }else{
             HeureADJOk = false;
         }
-//  System.out.println("Employé heure <7h adj? " + HeureADJOk);
 
-//  System.out.println("Heure travaillées adj : " + countADJ);
 
         // Voir si employé n'a pas trop travaillé adj si on rajoute cette mission
         for (boolean value : employé.getEmployéEdt().getDispo1()) {
@@ -227,38 +226,35 @@ public class AlgoTabou {
                 countSemaine++;
             }
         }
-        countSemaine += heureTotal;  // heure suposé en plus si il effectue la mission
+        countSemaine += heureTotal;  // heure supposé en plus si il effectue la mission
 
         if (countSemaine <= 126000){  // < 35 heures
             HeureSemaineOk = true;
         }else{
             HeureSemaineOk = false;
         }
-//  System.out.println("Employé heure <35h semaine? " + HeureSemaineOk);
+
         //Verifs finales
-//  System.out.println("Employé comp? " + employeCentre.getCompétence());
-//  System.out.println("Mission comp? " + mission.get(j).getCompétence());
-
-
-
         if (employé.getCompétence().equals(mission.getCompétence())) {
             total +=10; // dejà verifié mais au cas où
         }
         if (edtOk == true && HeureADJOk == true && HeureSemaineOk == true){
-            total +=6;
+            total +=6; // contrainte emploi du temps
         }
         if (employé.getSpé().equals(mission.getSpé())){
-            total += 1;
+            total += 1; // contrainte spécialité
         }
 
         // temps entre mission inférieur ou égale à 13h
         if (employé.getLastMissionAffectee() != null && heureDebut - Integer.parseInt(employé.getLastMissionAffectee().getHeure_fin()) <= 46800){
-            total += 5;
+            total += 5; // contrainte des 13h entre les mission
         }
 
         employé.setScore(total);
     }
 
+
+    //fonction de mise à jour des emplois du temps employé que ce soit pour affecter ou enlever des missions
     public void majEDTEmploye(Employé employe, int jour, int heureDeb, int heureFin, boolean value){
         boolean[] dispoEmp = new boolean[86400];
 
@@ -289,29 +285,24 @@ public class AlgoTabou {
     }
 
 
+    // Fonction d'affectation d'une mission
     public void affecterMission(Employé employe, Mission mission){
         employe.addMissionAffectee(mission);
     }
 
+    //Fonction de suppression d'affectation d'une mission
     public void removemissionAffectee(Employé employe, Mission mission){
         employe.removeMissionFromAffectation(mission);
     }
 
+    //Fonction de verification si une mission est déjà affecté à un employé
     public boolean checkMissionInAffectation(Employé employe, Mission mission){
         return employe.isInAffectation(mission);
     }
 
 
 
-//    public void creationCheminOptimal(List<CoupleEmployéMission> listeCouples){
-//        List<List<Mission>> cheminOptiEmployees = new ArrayList<>();
-//        for (CoupleEmployéMission couple : listeCouples){
-//
-//
-//        }
-//    }
-
-
+    //Fonction d'affichage des chemins optimaux par employé par jours
     public void affichageCheminOptimaux() {
             for(Employé employe : employes){
                 //remettre en ordre en fonction des horraires les missions affectées
@@ -373,14 +364,17 @@ public class AlgoTabou {
     }
 
 
+    //Verification si une mission est la premiere affectée a un employé (sur 1 jour) pour le calcul des distance
     public boolean estPremierElement(List<Mission> liste, Mission element){
         return liste.get(0).equals(element);
     }
 
+    //Verification si une mission est la derniere affectée a un employé (sur 1 jour) pour le calcul des distance
     public boolean estDernierElement(List<Mission> liste, Mission element){
         return liste.get(liste.size() - 1).equals(element);
     }
 
+    //Fonction pour prendre la mission precedente (sur 1 jour), toujour pour le calcul des distance
     public Mission getElementPrecedent(List<Mission> liste, Mission element){
         int indexCourant = liste.indexOf(element);
         Mission elementPrecedent = liste.get(indexCourant - 1);
@@ -388,6 +382,7 @@ public class AlgoTabou {
         return elementPrecedent;
     }
 
+    // Fonction de mise à jour de la distance effectué par un employé
     public void majDistancePouremploye(Employé e, int jour, double distOpti){
         switch (jour) {
             case 1:
@@ -412,11 +407,13 @@ public class AlgoTabou {
     }
 
 
+    // Fonction qui tri les mission par horraire (appelé pour 1 jour a chaque fois) pour encore améliorer le chemin optimal
     public List<Mission> triMissionAffecteParJour(List<Mission> missions) {
         Collections.sort(missions, Comparator.comparingInt(mission -> Integer.parseInt(mission.getHeure_debut())));
         return missions;
     }
 
+    //Fonction de remise en ordre des mission, trié par jour et horraire avant calcul des distance
     public void remettreOrdreMissions(Employé employe){
         List<Mission> newAffectation = new ArrayList<>();
 
@@ -474,6 +471,8 @@ public class AlgoTabou {
     }
 
 
+
+    //Fonction d'affectation des missions aux centres des mission affecté à ses employé associé
     public void affectationMissionCentre(){
         for (Centre centre : centres){
             List<Mission> listeTempAffectations = new ArrayList<>();
@@ -495,6 +494,7 @@ public class AlgoTabou {
 
 
 
+    // Fonction de vérification, toutes les missions sont affectées?
     public boolean verifAllMissionaffected(){
 
         List<Mission> allMissionAffected = new ArrayList<>();
@@ -506,6 +506,7 @@ public class AlgoTabou {
     }
 
 
+    // Fonction de retout des mission non affectées si c'est le cas
     public List<Mission> RetourneMissionPasAffectee(){
 
         List<Mission> missionPasAffected = new ArrayList<>();
@@ -526,6 +527,7 @@ public class AlgoTabou {
     }
 
 
+    // Affectation des mission non affecté dans un premier temps, suivant de nouveau le processus de fitness
     public void affecterMissionPasAffectees(List<Mission> missionPasAffectees){
 
         for(Mission mission : missionPasAffectees){
@@ -549,6 +551,7 @@ public class AlgoTabou {
 
     }
 
+    // rechercher les dernier doublons, s'il y en a
     public List<Mission> AllMissionaffectedDoublons(){
         List<Mission> missionDoubles = new ArrayList<>();
         List<Mission> allMissionAffected = new ArrayList<>();
@@ -570,6 +573,7 @@ public class AlgoTabou {
     }
 
 
+    // Derniere suppression des doublons si ils sont présents, de nouveau avec la selection du meilleur employé compatible
     public void suppressionDoublonApresAffectation(List<Mission> missionDouble){
 
         for(Mission mission : missionDouble){
@@ -626,6 +630,7 @@ public class AlgoTabou {
     }
 
 
+    // vérification finale rapport compatibilité compétence et spécialité
     public void verifAlgoOK(){
         int verifokCompetences = 0;
         int verifokSpe = 0;

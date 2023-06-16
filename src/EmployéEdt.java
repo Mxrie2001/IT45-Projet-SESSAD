@@ -7,6 +7,7 @@ public class EmployéEdt {
     private boolean[] dispo4;
     private boolean[] dispo5;
 
+    //Constructeur
     public EmployéEdt() {
         this.dispo1 =  new boolean[86400];
         this.dispo2 = new boolean[86400];
@@ -15,6 +16,7 @@ public class EmployéEdt {
         this.dispo5 = new boolean[86400];
     }
 
+    //Constructeur
     public boolean[] getDispo1() {
         return dispo1;
     }
@@ -62,6 +64,7 @@ public class EmployéEdt {
         }
     }
 
+    //Fonction de modification d'emploi du temps
     public void setElement(int index, boolean value, boolean[] tab) {
         if (index >= 0 && index < tab.length) {
             tab[index] = value;
